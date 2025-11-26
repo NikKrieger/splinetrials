@@ -3,7 +3,7 @@ Package: splinetrials
 Title: Facilitate Clinical Trials Analysis Using Natural Cubic Splines
 Version: 0.0.1
 Authors@R: c(
-    person("Nik", "Krieger", , "nikolas.krieger@experis.com", role = c("aut", "cre")),
+    person("Nik", "Krieger", , "nikkrieger@gmail.com", role = c("aut", "cre")),
     person("Daniel", "Sabanes Bove", , "daniel@rconis.com", role = "ctb"),
     person("Eli Lilly and Company", role = "cph")
   )
