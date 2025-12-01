@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 # splinetrials
 
 <!-- badges: start -->
+[![Codecov test coverage](https://codecov.io/gh/NikKrieger/splinetrials/graph/badge.svg)](https://app.codecov.io/gh/NikKrieger/splinetrials)
 <!-- badges: end -->
 
 The goal of splinetrials is to analyze longitudinal clinical data applying natural cubic splines to a continuous time variable.

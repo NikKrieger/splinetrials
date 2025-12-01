@@ -5,6 +5,8 @@
 
 <!-- badges: start -->
 
+[![Codecov test
+coverage](https://codecov.io/gh/NikKrieger/splinetrials/graph/badge.svg)](https://app.codecov.io/gh/NikKrieger/splinetrials)
 <!-- badges: end -->
 
 The goal of splinetrials is to analyze longitudinal clinical data
