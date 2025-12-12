@@ -7,6 +7,7 @@
 
 [![Codecov test
 coverage](https://codecov.io/gh/NikKrieger/splinetrials/graph/badge.svg)](https://app.codecov.io/gh/NikKrieger/splinetrials)
+[![R-CMD-check](https://github.com/NikKrieger/splinetrials/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/NikKrieger/splinetrials/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of splinetrials is to analyze longitudinal clinical data
