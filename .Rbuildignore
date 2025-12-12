@@ -5,3 +5,6 @@
 ^README\.Rmd$
 project_description.md
 ^codecov\.yml$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
