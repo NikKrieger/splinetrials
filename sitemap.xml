@@ -1,0 +1,23 @@
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>/404.html</loc></url>
+<url><loc>/LICENSE.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/reference/bin_timepoints.html</loc></url>
+<url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/make_visit_labels.html</loc></url>
+<url><loc>/reference/midpoints.html</loc></url>
+<url><loc>/reference/ncs_analysis_subgroup.html</loc></url>
+<url><loc>/reference/ncs_emmeans.html</loc></url>
+<url><loc>/reference/ncs_mmrm_fit.html</loc></url>
+<url><loc>/reference/ncs_plot_means.html</loc></url>
+<url><loc>/reference/ncs_plot_means_subgroup.html</loc></url>
+<url><loc>/reference/percent_slowing_using_change_from_bl.html</loc></url>
+<url><loc>/reference/plot_outcome_by_visit_and_group.html</loc></url>
+<url><loc>/reference/splinetrials_analysis-class.html</loc></url>
+<url><loc>/reference/splinetrials_subgroup_analysis-class.html</loc></url>
+<url><loc>/reference/time_spline.html</loc></url>
+<url><loc>/reference/time_spline_basis.html</loc></url>
+<url><loc>/reference/treatment_effect.html</loc></url>
+</urlset>
+
