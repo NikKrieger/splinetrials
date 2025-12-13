@@ -5,7 +5,13 @@ applying natural cubic splines to a continuous time variable.
 
 ## Installation
 
-You can install the development version of splinetrials from
+Install this package from CRAN with:
+
+``` r
+install.packages("splinetrials")
+```
+
+You can also install the development version of splinetrials from
 [GitHub](https://github.com/NikKrieger/splinetrials) with:
 
 ``` r

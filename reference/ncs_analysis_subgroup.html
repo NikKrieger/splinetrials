@@ -19,7 +19,7 @@ performs additional analyses.
 
     <a class="navbar-brand me-2" href="../index.html">splinetrials</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,6 +28,7 @@ performs additional analyses.
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/NikKrieger/splinetrials/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
@@ -397,7 +398,8 @@ included in the returned value as the elements <code>full</code> and <code>reduc
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Create a usable data set out of mmrm::fev_data</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># interactive()</span></span></span>
+<span class="r-in"><span><span class="co"># Create a usable data set out of mmrm::fev_data</span></span></span>
 <span class="r-in"><span><span class="va">fev_mod</span> <span class="op">&lt;-</span> <span class="fu">mmrm</span><span class="fu">::</span><span class="va"><a href="https://openpharma.github.io/mmrm/latest-tag/reference/fev_data.html" class="external-link">fev_data</a></span></span></span>
 <span class="r-in"><span><span class="va">fev_mod</span><span class="op">$</span><span class="va">VISITN</span> <span class="op">&lt;-</span> <span class="va">fev_mod</span><span class="op">$</span><span class="va">VISITN</span> <span class="op">*</span> <span class="fl">10</span></span></span>
 <span class="r-in"><span><span class="va">fev_mod</span><span class="op">$</span><span class="va">time_cont</span> <span class="op">&lt;-</span> <span class="va">fev_mod</span><span class="op">$</span><span class="va">VISITN</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">fev_mod</span><span class="op">)</span><span class="op">)</span></span></span>
@@ -419,25 +421,6 @@ included in the returned value as the elements <code>full</code> and <code>reduc
 <span class="r-in"><span>  covariates <span class="op">=</span> <span class="op">~</span> <span class="va">FEV1_BL</span> <span class="op">+</span> <span class="va">RACE</span>,</span></span>
 <span class="r-in"><span>  cov_structs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ar1"</span>, <span class="st">"us"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> mmrm() registered as emmeans extension</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 8 × 32</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   arm   time      n   est    sd    se lower upper response_est response_se</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> PBO   VIS1    105  32.5  6.09 0.594  31.3  33.7         34.3       0.556</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> PBO   VIS2    105  37.5  5.26 0.513  36.5  38.5         38.2       0.475</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> PBO   VIS3    105  43.2  4.45 0.434  42.3  44.0         43.0       0.420</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> PBO   VIS4    105  47.8  9.43 0.920  46.0  49.6         48.7       0.971</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> TRT   VIS1     95  36.8  7.26 0.745  35.3  38.2         36.4       0.591</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> TRT   VIS2     95  41.9  5.75 0.589  40.8  43.1         41.9       0.485</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> TRT   VIS3     95  46.9  4.61 0.473  45.9  47.8         47.3       0.517</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span> TRT   VIS4     95  52.6 10.7  1.10   50.4  54.7         52.4       1.14 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 22 more variables: response_df &lt;dbl&gt;, response_lower &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   response_upper &lt;dbl&gt;, change_est &lt;dbl&gt;, change_se &lt;dbl&gt;, change_df &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   change_lower &lt;dbl&gt;, change_upper &lt;dbl&gt;, change_test_statistic &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   change_p_value &lt;dbl&gt;, diff_est &lt;dbl&gt;, diff_se &lt;dbl&gt;, diff_df &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   diff_lower &lt;dbl&gt;, diff_upper &lt;dbl&gt;, diff_test_statistic &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   diff_p_value &lt;dbl&gt;, percent_slowing_est &lt;dbl&gt;, percent_slowing_lower &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   percent_slowing_upper &lt;dbl&gt;, correlation &lt;chr&gt;, optimizer &lt;chr&gt;</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># With subgroup:</span></span></span>
 <span class="r-in"><span><span class="fu">ncs_analysis_subgroup</span><span class="op">(</span></span></span>
@@ -457,90 +440,7 @@ included in the returned value as the elements <code>full</code> and <code>reduc
 <span class="r-in"><span>  covariates <span class="op">=</span> <span class="op">~</span> <span class="va">FEV1_BL</span> <span class="op">+</span> <span class="va">RACE</span>,</span></span>
 <span class="r-in"><span>  cov_structs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ar1"</span>, <span class="st">"us"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> mmrm() registered as car::Anova extension</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $between</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 16 × 30</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    arm   time  subgroup     n   est    sd    se lower upper response_est</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> PBO   VIS1  Female      55  33.9  5.74 0.774  32.4  35.4         35.4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> PBO   VIS1  Male        50  30.7  6.14 0.868  29.0  32.4         32.8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> TRT   VIS1  Female      51  36.8  7.51 1.05   34.7  38.8         36.9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> TRT   VIS1  Male        44  36.8  7.10 1.07   34.7  38.9         35.9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> PBO   VIS2  Female      55  36.9  5.28 0.712  35.5  38.3         38.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> PBO   VIS2  Male        50  38.1  5.25 0.742  36.7  39.6         37.7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> TRT   VIS2  Female      51  40.8  5.34 0.747  39.3  42.3         41.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> TRT   VIS2  Male        44  43.5  6.01 0.905  41.7  45.3         43.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> PBO   VIS3  Female      55  43.7  4.01 0.541  42.6  44.8         43.4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> PBO   VIS3  Male        50  42.7  4.86 0.687  41.3  44.0         42.7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> TRT   VIS3  Female      51  47.0  4.59 0.642  45.8  48.3         46.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> TRT   VIS3  Male        44  46.6  4.75 0.715  45.2  48.0         48.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span> PBO   VIS4  Female      55  48.2  8.98 1.21   45.9  50.6         49.8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span> PBO   VIS4  Male        50  47.3  9.99 1.41   44.5  50.0         47.7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span> TRT   VIS4  Female      51  52.5 11.9  1.66   49.2  55.7         52.7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">16</span> TRT   VIS4  Male        44  52.7  9.28 1.40   50.0  55.5         52.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 20 more variables: response_se &lt;dbl&gt;, response_df &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   response_lower &lt;dbl&gt;, response_upper &lt;dbl&gt;, change_est &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   change_se &lt;dbl&gt;, change_df &lt;dbl&gt;, change_lower &lt;dbl&gt;, change_upper &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   change_test_statistic &lt;dbl&gt;, change_p_value &lt;dbl&gt;, diff_subgroup_est &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   diff_subgroup_se &lt;dbl&gt;, diff_subgroup_df &lt;dbl&gt;, diff_subgroup_lower &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   diff_subgroup_upper &lt;dbl&gt;, diff_subgroup_test_statistic &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   diff_subgroup_p_value &lt;dbl&gt;, correlation &lt;chr&gt;, optimizer &lt;chr&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $within</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 16 × 33</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    arm   time  subgroup     n   est    sd    se lower upper response_est</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> PBO   VIS1  Female      55  33.9  5.74 0.774  32.4  35.4         35.4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> PBO   VIS2  Female      55  36.9  5.28 0.712  35.5  38.3         38.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> PBO   VIS3  Female      55  43.7  4.01 0.541  42.6  44.8         43.4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> PBO   VIS4  Female      55  48.2  8.98 1.21   45.9  50.6         49.8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> TRT   VIS1  Female      51  36.8  7.51 1.05   34.7  38.8         36.9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> TRT   VIS2  Female      51  40.8  5.34 0.747  39.3  42.3         41.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> TRT   VIS3  Female      51  47.0  4.59 0.642  45.8  48.3         46.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> TRT   VIS4  Female      51  52.5 11.9  1.66   49.2  55.7         52.7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> PBO   VIS1  Male        50  30.7  6.14 0.868  29.0  32.4         32.8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> PBO   VIS2  Male        50  38.1  5.25 0.742  36.7  39.6         37.7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> PBO   VIS3  Male        50  42.7  4.86 0.687  41.3  44.0         42.7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> PBO   VIS4  Male        50  47.3  9.99 1.41   44.5  50.0         47.7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span> TRT   VIS1  Male        44  36.8  7.10 1.07   34.7  38.9         35.9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span> TRT   VIS2  Male        44  43.5  6.01 0.905  41.7  45.3         43.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span> TRT   VIS3  Male        44  46.6  4.75 0.715  45.2  48.0         48.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">16</span> TRT   VIS4  Male        44  52.7  9.28 1.40   50.0  55.5         52.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 23 more variables: response_se &lt;dbl&gt;, response_df &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   response_lower &lt;dbl&gt;, response_upper &lt;dbl&gt;, change_est &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   change_se &lt;dbl&gt;, change_df &lt;dbl&gt;, change_lower &lt;dbl&gt;, change_upper &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   change_test_statistic &lt;dbl&gt;, change_p_value &lt;dbl&gt;, diff_arm_est &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   diff_arm_se &lt;dbl&gt;, diff_arm_df &lt;dbl&gt;, diff_arm_lower &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   diff_arm_upper &lt;dbl&gt;, diff_arm_test_statistic &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   diff_arm_p_value &lt;dbl&gt;, percent_slowing_est &lt;dbl&gt;, …</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $type3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 11 × 6</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    effect            chisquare_test_stati…¹    df  p_value correlation optimizer</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> spline_fn(time_c…               135.         1 2.76<span style="color: #949494;">e</span><span style="color: #BB0000;">-31</span> homogeneou… mmrm+tmb </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> spline_fn(time_c…               242.         1 1.40<span style="color: #949494;">e</span><span style="color: #BB0000;">-54</span> homogeneou… mmrm+tmb </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> SEX                               5.22       1 2.23<span style="color: #949494;">e</span><span style="color: #BB0000;">- 2</span> homogeneou… mmrm+tmb </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> FEV1_BL                          21.2        1 4.11<span style="color: #949494;">e</span><span style="color: #BB0000;">- 6</span> homogeneou… mmrm+tmb </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> RACE                             53.9        2 2.01<span style="color: #949494;">e</span><span style="color: #BB0000;">-12</span> homogeneou… mmrm+tmb </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> spline_fn(time_c…                 5.76       1 1.64<span style="color: #949494;">e</span><span style="color: #BB0000;">- 2</span> homogeneou… mmrm+tmb </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> spline_fn(time_c…                 0.144      1 7.04<span style="color: #949494;">e</span><span style="color: #BB0000;">- 1</span> homogeneou… mmrm+tmb </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> spline_fn(time_c…                38.8        1 4.75<span style="color: #949494;">e</span><span style="color: #BB0000;">-10</span> homogeneou… mmrm+tmb </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> spline_fn(time_c…                 0.135      1 7.13<span style="color: #949494;">e</span><span style="color: #BB0000;">- 1</span> homogeneou… mmrm+tmb </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> spline_fn(time_c…                 4.04       1 4.45<span style="color: #949494;">e</span><span style="color: #BB0000;">- 2</span> homogeneou… mmrm+tmb </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> spline_fn(time_c…                 0.042<span style="text-decoration: underline;">9</span>     1 8.36<span style="color: #949494;">e</span><span style="color: #BB0000;">- 1</span> homogeneou… mmrm+tmb </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ abbreviated name: ¹​chisquare_test_statistic</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $interaction</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           model      aic      bic    loglik -2*log(l) test_statistic df</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 reduced model 3540.797 3583.479 -1757.399  3514.797             NA NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    full model 3541.291 3590.539 -1755.646  3511.291       3.506075  2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     p_value                        correlation optimizer</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1        NA homogeneous autoregressive order 1  mmrm+tmb</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.1732469 homogeneous autoregressive order 1  mmrm+tmb</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "splinetrials_subgroup_analysis"</span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

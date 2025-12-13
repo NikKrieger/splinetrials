@@ -99,7 +99,7 @@ ncs_data_results <-
     covariates = ~ FEV1_BL + RACE,
     cov_structs = c("ar1", "us")
   )
-#> In as.ordered(obs_visit_index) there are dropped visits: 7, 33.
+#> In as.ordered(obs_visit_index) there are dropped visits: 13, 43.
 #>  Additional attributes including contrasts are lost.
 #> To avoid this behavior, make sure use `drop_visit_levels = FALSE`.
 

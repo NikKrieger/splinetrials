@@ -11,8 +11,8 @@
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Facilitate Clinical Trials Analysis Using Natural Cubic Splines">
-<meta name="description" content="Contains tools and helper functions that make it easier to run longitudinal models with continuous time. These tools include natural cubic splines for time data, categorization of continuous observed time according to scheduled visits, and trying multiple covariance structure types.">
-<meta property="og:description" content="Contains tools and helper functions that make it easier to run longitudinal models with continuous time. These tools include natural cubic splines for time data, categorization of continuous observed time according to scheduled visits, and trying multiple covariance structure types.">
+<meta name="description" content="Create mixed models with repeated measures using natural cubic splines applied to an observed continuous time variable, as described by Donohue et al. (2023) &lt;doi:10.1002/pst.2285&gt;. Iterate through multiple covariance structure types until one converges. Categorize observed time according to scheduled visits. Perform subgroup analyses.">
+<meta property="og:description" content="Create mixed models with repeated measures using natural cubic splines applied to an observed continuous time variable, as described by Donohue et al. (2023) &lt;doi:10.1002/pst.2285&gt;. Iterate through multiple covariance structure types until one converges. Categorize observed time according to scheduled visits. Perform subgroup analyses.">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">splinetrials</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,6 +32,7 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
+<li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
@@ -54,8 +55,11 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install the development version of splinetrials from <a href="https://github.com/NikKrieger/splinetrials" class="external-link">GitHub</a> with:</p>
+<p>Install this package from CRAN with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"splinetrials"</span><span class="op">)</span></span></code></pre></div>
+<p>You can also install the development version of splinetrials from <a href="https://github.com/NikKrieger/splinetrials" class="external-link">GitHub</a> with:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("pak")</span></span>
 <span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"NikKrieger/splinetrials"</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -69,7 +73,7 @@
 <h1 id="data">Data<a class="anchor" aria-label="anchor" href="#data"></a>
 </h1>
 <p>We begin with a clinical data set with one row per patient per scheduled visit (including baseline). The following simulated data set represents the general structure (e.g. column names) but not necessarily realistic responses.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -165,7 +169,7 @@
 <h2 id="main-analysis">Main analysis<a class="anchor" aria-label="anchor" href="#main-analysis"></a>
 </h2>
 <p>The NCS analysis is a call to a single function: <code><a href="reference/ncs_analysis_subgroup.html">ncs_analysis()</a></code>. This produces a table of summary statistics, including LS means and confidence intervals. All arguments to <code><a href="reference/ncs_analysis_subgroup.html">ncs_analysis()</a></code> should be exposed as user inputs.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/NikKrieger/splinetrials" class="external-link">splinetrials</a></span><span class="op">)</span></span>
 <span><span class="va">results_table</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ncs_analysis_subgroup.html">ncs_analysis</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">data</span>,</span>
@@ -181,7 +185,7 @@
 <span>  cov_structs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"us"</span>, <span class="st">"toeph"</span>, <span class="st">"ar1h"</span>, <span class="st">"csh"</span>, <span class="st">"cs"</span><span class="op">)</span>,</span>
 <span>  df <span class="op">=</span> <span class="fl">3</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">results_table</span></span>
 <span><span class="co">#&gt; # A tibble: 24 × 32</span></span>
 <span><span class="co">#&gt;    arm     time         n   est    sd    se lower upper response_est response_se</span></span>
@@ -249,7 +253,7 @@
 <code>optimizer</code>: optimization algorithm for the whole model.</li>
 </ul>
 <p>We can plot the model against the data.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/ncs_plot_means.html">ncs_plot_means</a></span><span class="op">(</span><span class="va">results_table</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-plot_means_no_subgroup-1.png" width="100%"></p>
 </div>
@@ -257,7 +261,7 @@
 <h2 id="subgroup-analysis">Subgroup analysis<a class="anchor" aria-label="anchor" href="#subgroup-analysis"></a>
 </h2>
 <p>The subgroup analysis is similar, but it begins with a data set with a categorical variable column to indicate subgroup membership.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
 <span><span class="va">data_with_subgroup</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
@@ -289,7 +293,7 @@
 <span>                                                 <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">time_observed_index</span> <span class="op">/</span> <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">data_with_subgroup</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   patient     arm  subgroup categorical1 categorical2 continuous1 continuous2</span></span>
 <span><span class="co">#&gt; 1      Aa control subgroup1       level1       level1  -0.9568919   0.6060734</span></span>
@@ -343,7 +347,7 @@
 <code>time_scheduled_continuous</code>: User-supplied numeric vector of continuous times of when each visit was scheduled. It must be on the same time scale as <code>time_scheduled_continuous</code>, the values must have a one-to-one correspondence with the scheduled visits in <code>time_scheduled_label</code>, and the baseline must have a value of 0. If the time scale is weeks, then the study team can create this variable in advance using <code>time_scheduled_label</code> (e.g. <code>AVISIT</code>). For example, if <code>AVISIT</code> is <code>"Baseline"</code>, then <code>time_scheduled_continuous</code> must be 0. If <code>time_scheduled_label</code> is <code>"Visit Number 5 (Week 24)"</code>, then <code>time_scheduled_continuous</code> should be 24.</li>
 </ol>
 <p>The NCS subgroup analysis is a call to a single function: <code><a href="reference/ncs_analysis_subgroup.html">ncs_analysis_subgroup()</a></code>. This produces a table of summary statistics, including LS means and confidence intervals.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">subgroup_results</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="reference/ncs_analysis_subgroup.html">ncs_analysis_subgroup</a></span><span class="op">(</span></span>
 <span>    data <span class="op">=</span> <span class="va">data_with_subgroup</span>,</span>
@@ -362,11 +366,11 @@
 <span>    df <span class="op">=</span> <span class="fl">3</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p>We can plot the model against the data.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/ncs_plot_means_subgroup.html">ncs_plot_means_subgroup</a></span><span class="op">(</span><span class="va">subgroup_results</span><span class="op">$</span><span class="va">within</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-plot_means_subgroup-1.png" width="100%"></p>
 <p>Between-subgroup table:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">subgroup_results</span><span class="op">$</span><span class="va">between</span></span>
 <span><span class="co">#&gt; # A tibble: 72 × 30</span></span>
 <span><span class="co">#&gt;    arm     time     subgroup      n   est    sd    se lower upper response_est</span></span>
@@ -389,7 +393,7 @@
 <span><span class="co">#&gt; #   diff_subgroup_se &lt;dbl&gt;, diff_subgroup_df &lt;dbl&gt;, diff_subgroup_lower &lt;dbl&gt;,</span></span>
 <span><span class="co">#&gt; #   diff_subgroup_upper &lt;dbl&gt;, diff_subgroup_test_statistic &lt;dbl&gt;, …</span></span></code></pre></div>
 <p>Within-subgroup table:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">subgroup_results</span><span class="op">$</span><span class="va">within</span></span>
 <span><span class="co">#&gt; # A tibble: 72 × 33</span></span>
 <span><span class="co">#&gt;    arm     time     subgroup      n   est    sd    se lower upper response_est</span></span>
@@ -461,7 +465,7 @@
 <code>optimizer</code>: optimizer of the analysis subgroup model.</li>
 </ul>
 <p>Type-III ANOVA fixed effects:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">subgroup_results</span><span class="op">$</span><span class="va">type3</span></span>
 <span><span class="co">#&gt; # A tibble: 15 × 6</span></span>
 <span><span class="co">#&gt;    effect            chisquare_test_stati…¹    df  p_value correlation optimizer</span></span>
@@ -483,7 +487,7 @@
 <span><span class="co">#&gt; 15 spline_fn(time_o…                 2.54       4 6.37e- 1 heterogene… mmrm+tmb </span></span>
 <span><span class="co">#&gt; # ℹ abbreviated name: ¹​chisquare_test_statistic</span></span></code></pre></div>
 <p>There is also a table for the subgroup interaction test:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">subgroup_results</span><span class="op">$</span><span class="va">interaction</span></span>
 <span><span class="co">#&gt;           model      aic      bic    loglik -2*log(l) test_statistic df</span></span>
 <span><span class="co">#&gt; 1 reduced model 2884.131 3040.231 -1386.066  2772.131             NA NA</span></span>

@@ -152,22 +152,22 @@ ncs_emmeans(
   subgroup = "SEX"
 )
 #>  ARMCD time_cont SEX    emmean    SE   df lower.CL upper.CL
-#>  PBO          10 Male     32.9 0.863 59.7     31.2     34.6
-#>  TRT          10 Male     36.2 0.855 56.4     34.5     37.9
-#>  PBO          20 Male     37.5 0.695 44.1     36.1     38.9
-#>  TRT          20 Male     43.0 0.813 37.1     41.4     44.7
-#>  PBO          30 Male     42.5 0.519 49.6     41.4     43.5
-#>  TRT          30 Male     48.4 0.909 41.0     46.5     50.2
-#>  PBO          40 Male     47.9 1.620 35.1     44.6     51.2
-#>  TRT          40 Male     52.3 1.550 31.4     49.2     55.5
-#>  PBO          10 Female   35.3 0.776 69.0     33.7     36.8
-#>  TRT          10 Female   36.8 0.851 67.4     35.1     38.5
-#>  PBO          20 Female   38.5 0.645 49.9     37.2     39.8
-#>  TRT          20 Female   41.2 0.686 46.8     39.8     42.6
-#>  PBO          30 Female   43.5 0.648 57.5     42.2     44.8
-#>  TRT          30 Female   46.4 0.652 52.7     45.1     47.7
-#>  PBO          40 Female   49.9 1.260 36.0     47.4     52.5
-#>  TRT          40 Female   52.3 1.680 36.7     48.9     55.7
+#>  PBO          10 Male     32.9 0.826 60.4     31.2     34.6
+#>  TRT          10 Male     36.1 0.796 56.4     34.5     37.7
+#>  PBO          20 Male     37.4 0.711 43.9     35.9     38.8
+#>  TRT          20 Male     42.9 0.748 36.4     41.4     44.4
+#>  PBO          30 Male     42.3 0.507 48.8     41.3     43.3
+#>  TRT          30 Male     48.2 0.850 40.2     46.5     49.9
+#>  PBO          40 Male     47.7 1.560 35.4     44.5     50.8
+#>  TRT          40 Male     52.3 1.580 31.3     49.1     55.5
+#>  PBO          10 Female   35.3 0.754 66.8     33.8     36.8
+#>  TRT          10 Female   36.9 0.852 69.6     35.2     38.6
+#>  PBO          20 Female   38.4 0.641 49.4     37.1     39.7
+#>  TRT          20 Female   41.2 0.638 47.0     39.9     42.5
+#>  PBO          30 Female   43.4 0.617 55.4     42.1     44.6
+#>  TRT          30 Female   46.5 0.652 52.5     45.2     47.8
+#>  PBO          40 Female   49.9 1.330 36.7     47.2     52.6
+#>  TRT          40 Female   52.6 1.700 36.6     49.1     56.0
 #> 
 #> Results are averaged over the levels of: 2 nuisance factors, obs_visit_index 
 #> Confidence level used: 0.95 

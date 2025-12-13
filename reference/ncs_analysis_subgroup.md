@@ -428,6 +428,7 @@ be included in the returned value as the elements `full` and `reduced`
 ## Examples
 
 ``` r
+if (FALSE) { # interactive()
 # Create a usable data set out of mmrm::fev_data
 fev_mod <- mmrm::fev_data
 fev_mod$VISITN <- fev_mod$VISITN * 10
@@ -450,25 +451,6 @@ ncs_analysis(
   covariates = ~ FEV1_BL + RACE,
   cov_structs = c("ar1", "us")
 )
-#> mmrm() registered as emmeans extension
-#> # A tibble: 8 × 32
-#>   arm   time      n   est    sd    se lower upper response_est response_se
-#>   <fct> <fct> <int> <dbl> <dbl> <dbl> <dbl> <dbl>        <dbl>       <dbl>
-#> 1 PBO   VIS1    105  32.5  6.09 0.594  31.3  33.7         34.3       0.556
-#> 2 PBO   VIS2    105  37.5  5.26 0.513  36.5  38.5         38.2       0.475
-#> 3 PBO   VIS3    105  43.2  4.45 0.434  42.3  44.0         43.0       0.420
-#> 4 PBO   VIS4    105  47.8  9.43 0.920  46.0  49.6         48.7       0.971
-#> 5 TRT   VIS1     95  36.8  7.26 0.745  35.3  38.2         36.4       0.591
-#> 6 TRT   VIS2     95  41.9  5.75 0.589  40.8  43.1         41.9       0.485
-#> 7 TRT   VIS3     95  46.9  4.61 0.473  45.9  47.8         47.3       0.517
-#> 8 TRT   VIS4     95  52.6 10.7  1.10   50.4  54.7         52.4       1.14 
-#> # ℹ 22 more variables: response_df <dbl>, response_lower <dbl>,
-#> #   response_upper <dbl>, change_est <dbl>, change_se <dbl>, change_df <dbl>,
-#> #   change_lower <dbl>, change_upper <dbl>, change_test_statistic <dbl>,
-#> #   change_p_value <dbl>, diff_est <dbl>, diff_se <dbl>, diff_df <dbl>,
-#> #   diff_lower <dbl>, diff_upper <dbl>, diff_test_statistic <dbl>,
-#> #   diff_p_value <dbl>, percent_slowing_est <dbl>, percent_slowing_lower <dbl>,
-#> #   percent_slowing_upper <dbl>, correlation <chr>, optimizer <chr>
 
 # With subgroup:
 ncs_analysis_subgroup(
@@ -488,88 +470,5 @@ ncs_analysis_subgroup(
   covariates = ~ FEV1_BL + RACE,
   cov_structs = c("ar1", "us")
 )
-#> mmrm() registered as car::Anova extension
-#> $between
-#> # A tibble: 16 × 30
-#>    arm   time  subgroup     n   est    sd    se lower upper response_est
-#>    <fct> <fct> <fct>    <int> <dbl> <dbl> <dbl> <dbl> <dbl>        <dbl>
-#>  1 PBO   VIS1  Female      55  33.9  5.74 0.774  32.4  35.4         35.4
-#>  2 PBO   VIS1  Male        50  30.7  6.14 0.868  29.0  32.4         32.8
-#>  3 TRT   VIS1  Female      51  36.8  7.51 1.05   34.7  38.8         36.9
-#>  4 TRT   VIS1  Male        44  36.8  7.10 1.07   34.7  38.9         35.9
-#>  5 PBO   VIS2  Female      55  36.9  5.28 0.712  35.5  38.3         38.5
-#>  6 PBO   VIS2  Male        50  38.1  5.25 0.742  36.7  39.6         37.7
-#>  7 TRT   VIS2  Female      51  40.8  5.34 0.747  39.3  42.3         41.1
-#>  8 TRT   VIS2  Male        44  43.5  6.01 0.905  41.7  45.3         43.1
-#>  9 PBO   VIS3  Female      55  43.7  4.01 0.541  42.6  44.8         43.4
-#> 10 PBO   VIS3  Male        50  42.7  4.86 0.687  41.3  44.0         42.7
-#> 11 TRT   VIS3  Female      51  47.0  4.59 0.642  45.8  48.3         46.5
-#> 12 TRT   VIS3  Male        44  46.6  4.75 0.715  45.2  48.0         48.5
-#> 13 PBO   VIS4  Female      55  48.2  8.98 1.21   45.9  50.6         49.8
-#> 14 PBO   VIS4  Male        50  47.3  9.99 1.41   44.5  50.0         47.7
-#> 15 TRT   VIS4  Female      51  52.5 11.9  1.66   49.2  55.7         52.7
-#> 16 TRT   VIS4  Male        44  52.7  9.28 1.40   50.0  55.5         52.2
-#> # ℹ 20 more variables: response_se <dbl>, response_df <dbl>,
-#> #   response_lower <dbl>, response_upper <dbl>, change_est <dbl>,
-#> #   change_se <dbl>, change_df <dbl>, change_lower <dbl>, change_upper <dbl>,
-#> #   change_test_statistic <dbl>, change_p_value <dbl>, diff_subgroup_est <dbl>,
-#> #   diff_subgroup_se <dbl>, diff_subgroup_df <dbl>, diff_subgroup_lower <dbl>,
-#> #   diff_subgroup_upper <dbl>, diff_subgroup_test_statistic <dbl>,
-#> #   diff_subgroup_p_value <dbl>, correlation <chr>, optimizer <chr>
-#> 
-#> $within
-#> # A tibble: 16 × 33
-#>    arm   time  subgroup     n   est    sd    se lower upper response_est
-#>    <fct> <fct> <fct>    <int> <dbl> <dbl> <dbl> <dbl> <dbl>        <dbl>
-#>  1 PBO   VIS1  Female      55  33.9  5.74 0.774  32.4  35.4         35.4
-#>  2 PBO   VIS2  Female      55  36.9  5.28 0.712  35.5  38.3         38.5
-#>  3 PBO   VIS3  Female      55  43.7  4.01 0.541  42.6  44.8         43.4
-#>  4 PBO   VIS4  Female      55  48.2  8.98 1.21   45.9  50.6         49.8
-#>  5 TRT   VIS1  Female      51  36.8  7.51 1.05   34.7  38.8         36.9
-#>  6 TRT   VIS2  Female      51  40.8  5.34 0.747  39.3  42.3         41.1
-#>  7 TRT   VIS3  Female      51  47.0  4.59 0.642  45.8  48.3         46.5
-#>  8 TRT   VIS4  Female      51  52.5 11.9  1.66   49.2  55.7         52.7
-#>  9 PBO   VIS1  Male        50  30.7  6.14 0.868  29.0  32.4         32.8
-#> 10 PBO   VIS2  Male        50  38.1  5.25 0.742  36.7  39.6         37.7
-#> 11 PBO   VIS3  Male        50  42.7  4.86 0.687  41.3  44.0         42.7
-#> 12 PBO   VIS4  Male        50  47.3  9.99 1.41   44.5  50.0         47.7
-#> 13 TRT   VIS1  Male        44  36.8  7.10 1.07   34.7  38.9         35.9
-#> 14 TRT   VIS2  Male        44  43.5  6.01 0.905  41.7  45.3         43.1
-#> 15 TRT   VIS3  Male        44  46.6  4.75 0.715  45.2  48.0         48.5
-#> 16 TRT   VIS4  Male        44  52.7  9.28 1.40   50.0  55.5         52.2
-#> # ℹ 23 more variables: response_se <dbl>, response_df <dbl>,
-#> #   response_lower <dbl>, response_upper <dbl>, change_est <dbl>,
-#> #   change_se <dbl>, change_df <dbl>, change_lower <dbl>, change_upper <dbl>,
-#> #   change_test_statistic <dbl>, change_p_value <dbl>, diff_arm_est <dbl>,
-#> #   diff_arm_se <dbl>, diff_arm_df <dbl>, diff_arm_lower <dbl>,
-#> #   diff_arm_upper <dbl>, diff_arm_test_statistic <dbl>,
-#> #   diff_arm_p_value <dbl>, percent_slowing_est <dbl>, …
-#> 
-#> $type3
-#> # A tibble: 11 × 6
-#>    effect            chisquare_test_stati…¹    df  p_value correlation optimizer
-#>    <chr>                              <dbl> <int>    <dbl> <chr>       <chr>    
-#>  1 spline_fn(time_c…               135.         1 2.76e-31 homogeneou… mmrm+tmb 
-#>  2 spline_fn(time_c…               242.         1 1.40e-54 homogeneou… mmrm+tmb 
-#>  3 SEX                               5.22       1 2.23e- 2 homogeneou… mmrm+tmb 
-#>  4 FEV1_BL                          21.2        1 4.11e- 6 homogeneou… mmrm+tmb 
-#>  5 RACE                             53.9        2 2.01e-12 homogeneou… mmrm+tmb 
-#>  6 spline_fn(time_c…                 5.76       1 1.64e- 2 homogeneou… mmrm+tmb 
-#>  7 spline_fn(time_c…                 0.144      1 7.04e- 1 homogeneou… mmrm+tmb 
-#>  8 spline_fn(time_c…                38.8        1 4.75e-10 homogeneou… mmrm+tmb 
-#>  9 spline_fn(time_c…                 0.135      1 7.13e- 1 homogeneou… mmrm+tmb 
-#> 10 spline_fn(time_c…                 4.04       1 4.45e- 2 homogeneou… mmrm+tmb 
-#> 11 spline_fn(time_c…                 0.0429     1 8.36e- 1 homogeneou… mmrm+tmb 
-#> # ℹ abbreviated name: ¹​chisquare_test_statistic
-#> 
-#> $interaction
-#>           model      aic      bic    loglik -2*log(l) test_statistic df
-#> 1 reduced model 3540.797 3583.479 -1757.399  3514.797             NA NA
-#> 2    full model 3541.291 3590.539 -1755.646  3511.291       3.506075  2
-#>     p_value                        correlation optimizer
-#> 1        NA homogeneous autoregressive order 1  mmrm+tmb
-#> 2 0.1732469 homogeneous autoregressive order 1  mmrm+tmb
-#> 
-#> attr(,"class")
-#> [1] "splinetrials_subgroup_analysis"
+}
 ```

@@ -11,7 +11,7 @@ slowing results."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">splinetrials</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,6 +20,7 @@ slowing results."></head><body>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/NikKrieger/splinetrials/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
@@ -89,11 +90,10 @@ of p-values. Defaults to <code>0.95</code>.</p></dd>
 <code>change_from_bl_tbl[[time_observed_continuous]]</code>,
 <code>change_from_bl_tbl[[arm]]</code> (except the value denoted in <code>control_group</code>),
 and <code>change_from_bl_tbl[[subgroup]]</code> (if <code>subgroup</code> is not <code>NULL</code>). It will
-contain the following columns:</p><ol><li><p>{<em>column name will be the value of the <em><code>arm</code></em> argument</em>}: the study
-arm.</p></li>
-<li><p>{<em>column name will be the value of the <em><code>time_observed_continuous</code></em>
-argument</em>}: the <em>observed</em> continuous time variable.</p></li>
-<li><p>{<em>column name will be the value of the <em><code>subgroup</code></em> argument</em>}: the
+contain the following columns:</p><ol><li><p>{column name will be the value of the <code>arm</code> argument}: the study arm.</p></li>
+<li><p>{column name will be the value of the <code>time_observed_continuous</code>
+argument}: the <em>observed</em> continuous time variable.</p></li>
+<li><p>{column name will be the value of the <code>subgroup</code> argument}: the
 subgroup. Only present if <code>subgroup</code> is not <code>NULL</code>.</p></li>
 <li><p><code>percent_slowing_est</code>: the percent slowing estimate</p></li>
 <li><p><code>percent_slowing_lower</code>: the lower bound of the confidence interval for
@@ -145,9 +145,6 @@ $$</p>
 <span class="r-in"><span>    subgroup_comparator <span class="op">=</span> <span class="st">"Male"</span>,</span></span>
 <span class="r-in"><span>    covariates <span class="op">=</span> <span class="op">~</span> <span class="va">FEV1_BL</span> <span class="op">+</span> <span class="va">RACE</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> In as.ordered(obs_visit_index) there are dropped visits: 43.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>  Additional attributes including contrasts are lost.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> To avoid this behavior, make sure use `drop_visit_levels = FALSE`.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">marginal_means</span> <span class="op">&lt;-</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="ncs_emmeans.html">ncs_emmeans</a></span><span class="op">(</span></span></span>
@@ -178,12 +175,12 @@ $$</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 6</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ARMCD time_cont SEX    percent_slowing_est percent_slowing_lower</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> TRT          20 Male                -<span style="color: #BB0000;">48.2</span>                 -<span style="color: #BB0000;">106.</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> TRT          30 Male                -<span style="color: #BB0000;">28.7</span>                  -<span style="color: #BB0000;">61.9</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> TRT          40 Male                -<span style="color: #BB0000;">11.7</span>                  -<span style="color: #BB0000;">47.9</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> TRT          20 Female              -<span style="color: #BB0000;">30.4</span>                  -<span style="color: #BB0000;">98.8</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> TRT          30 Female              -<span style="color: #BB0000;">16.3</span>                  -<span style="color: #BB0000;">50.7</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> TRT          40 Female               -<span style="color: #BB0000;">7.13</span>                 -<span style="color: #BB0000;">40.1</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> TRT          20 Male                -<span style="color: #BB0000;">45.1</span>                  -<span style="color: #BB0000;">95.0</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> TRT          30 Male                -<span style="color: #BB0000;">26.2</span>                  -<span style="color: #BB0000;">55.9</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> TRT          40 Male                 -<span style="color: #BB0000;">8.90</span>                 -<span style="color: #BB0000;">43.4</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> TRT          20 Female              -<span style="color: #BB0000;">32.3</span>                  -<span style="color: #BB0000;">97.1</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> TRT          30 Female              -<span style="color: #BB0000;">19.6</span>                  -<span style="color: #BB0000;">54.0</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> TRT          40 Female              -<span style="color: #BB0000;">10.8</span>                  -<span style="color: #BB0000;">45.4</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1 more variable: percent_slowing_upper &lt;dbl&gt;</span></span>
 </code></pre></div>
     </div>

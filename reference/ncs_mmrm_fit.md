@@ -392,7 +392,7 @@ ncs_mmrm_fit(
   control_group = "PBO",
   covariates = ~ FEV1_BL + RACE
 )
-#> In as.ordered(obs_visit_index) there are dropped visits: 23.
+#> In as.ordered(obs_visit_index) there are dropped visits: 27, 33.
 #>  Additional attributes including contrasts are lost.
 #> To avoid this behavior, make sure use `drop_visit_levels = FALSE`.
 #> mmrm fit
@@ -400,21 +400,21 @@ ncs_mmrm_fit(
 #> Formula:     FEV1 ~ spline_fn(time_cont)[, 1] + spline_fn(time_cont)[, 2] +  
 #>     FEV1_BL + RACE + spline_fn(time_cont)[, 1]:ARMCD + spline_fn(time_cont)[,  
 #>     2]:ARMCD
-#> Data:        fev_mod (used 537 observations from 197 subjects with maximum 25 
+#> Data:        fev_mod (used 537 observations from 197 subjects with maximum 23 
 #> timepoints)
 #> Covariance:  auto-regressive order one (2 variance parameters)
 #> Inference:   REML
-#> Deviance:    3517.844
+#> Deviance:    3519.085
 #> 
 #> Coefficients: 
 #>                        (Intercept)          spline_fn(time_cont)[, 1] 
-#>                         22.1532832                         20.8882405 
+#>                         21.9675040                         21.6539457 
 #>          spline_fn(time_cont)[, 2]                            FEV1_BL 
-#>                         15.9238233                          0.1710474 
+#>                         16.2898692                          0.1697069 
 #>      RACEBlack or African American                          RACEWhite 
-#>                          0.4839507                          5.4078973 
+#>                          0.4284112                          5.2781845 
 #> spline_fn(time_cont)[, 1]:ARMCDTRT spline_fn(time_cont)[, 2]:ARMCDTRT 
-#>                          7.4042955                          0.5122948 
+#>                          7.5780942                          0.3654192 
 #> 
 #> Model Inference Optimization:
 #> Converged with code 0 and message: convergence: rel_reduction_of_f <= factr*epsmch
@@ -436,7 +436,7 @@ ncs_mmrm_fit(
   subgroup_comparator = "Male",
   covariates = ~ FEV1_BL + RACE
 )
-#> In as.ordered(obs_visit_index) there are dropped visits: 23.
+#> In as.ordered(obs_visit_index) there are dropped visits: 27, 33.
 #>  Additional attributes including contrasts are lost.
 #> To avoid this behavior, make sure use `drop_visit_levels = FALSE`.
 #> mmrm fit
@@ -446,39 +446,39 @@ ncs_mmrm_fit(
 #>     2]:SEX + spline_fn(time_cont)[, 1]:ARMCD + spline_fn(time_cont)[,  
 #>     2]:ARMCD + spline_fn(time_cont)[, 1]:SEX:ARMCD + spline_fn(time_cont)[,  
 #>     2]:SEX:ARMCD
-#> Data:        fev_mod (used 537 observations from 197 subjects with maximum 25 
+#> Data:        fev_mod (used 537 observations from 197 subjects with maximum 23 
 #> timepoints)
 #> Covariance:  auto-regressive order one (2 variance parameters)
 #> Inference:   REML
-#> Deviance:    3494.791
+#> Deviance:    3495.243
 #> 
 #> Coefficients: 
 #>                                  (Intercept) 
-#>                                   19.4381254 
+#>                                  19.04064075 
 #>                    spline_fn(time_cont)[, 1] 
-#>                                   24.6970874 
+#>                                  26.03036523 
 #>                    spline_fn(time_cont)[, 2] 
-#>                                   15.8980612 
+#>                                  16.16544536 
 #>                                    SEXFemale 
-#>                                    4.3959272 
+#>                                   4.84326016 
 #>                                      FEV1_BL 
-#>                                    0.1738792 
+#>                                   0.17108349 
 #>                RACEBlack or African American 
-#>                                    0.6771484 
+#>                                   0.62450086 
 #>                                    RACEWhite 
-#>                                    5.5594420 
+#>                                   5.45148575 
 #>          spline_fn(time_cont)[, 1]:SEXFemale 
-#>                                   -6.5735970 
+#>                                  -7.52228108 
 #>          spline_fn(time_cont)[, 2]:SEXFemale 
-#>                                    0.1603330 
+#>                                   0.36217537 
 #>           spline_fn(time_cont)[, 1]:ARMCDTRT 
-#>                                   10.0109187 
+#>                                  10.16711616 
 #>           spline_fn(time_cont)[, 2]:ARMCDTRT 
-#>                                    0.2615782 
+#>                                   0.01344647 
 #> spline_fn(time_cont)[, 1]:SEXFemale:ARMCDTRT 
-#>                                   -4.6558468 
+#>                                  -4.60721973 
 #> spline_fn(time_cont)[, 2]:SEXFemale:ARMCDTRT 
-#>                                    0.2574873 
+#>                                   0.38589869 
 #> 
 #> Model Inference Optimization:
 #> Converged with code 0 and message: convergence: rel_reduction_of_f <= factr*epsmch

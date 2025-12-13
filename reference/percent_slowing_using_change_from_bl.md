@@ -55,13 +55,13 @@ A data frame with a row for each combination of the unique values of
 `control_group`), and `change_from_bl_tbl[[subgroup]]` (if `subgroup` is
 not `NULL`). It will contain the following columns:
 
-1.  {*column name will be the value of the *`arm`* argument*}: the study
+1.  {column name will be the value of the `arm` argument}: the study
     arm.
 
-2.  {*column name will be the value of the *`time_observed_continuous`*
-    argument*}: the *observed* continuous time variable.
+2.  {column name will be the value of the `time_observed_continuous`
+    argument}: the *observed* continuous time variable.
 
-3.  {*column name will be the value of the *`subgroup`* argument*}: the
+3.  {column name will be the value of the `subgroup` argument}: the
     subgroup. Only present if `subgroup` is not `NULL`.
 
 4.  `percent_slowing_est`: the percent slowing estimate
@@ -115,9 +115,6 @@ fit <-
     subgroup_comparator = "Male",
     covariates = ~ FEV1_BL + RACE
   )
-#> In as.ordered(obs_visit_index) there are dropped visits: 43.
-#>  Additional attributes including contrasts are lost.
-#> To avoid this behavior, make sure use `drop_visit_levels = FALSE`.
 
 marginal_means <-
   ncs_emmeans(
@@ -148,11 +145,11 @@ percent_slowing_using_change_from_bl(
 #> # A tibble: 6 × 6
 #>   ARMCD time_cont SEX    percent_slowing_est percent_slowing_lower
 #>   <fct>     <dbl> <fct>                <dbl>                 <dbl>
-#> 1 TRT          20 Male                -48.2                 -106. 
-#> 2 TRT          30 Male                -28.7                  -61.9
-#> 3 TRT          40 Male                -11.7                  -47.9
-#> 4 TRT          20 Female              -30.4                  -98.8
-#> 5 TRT          30 Female              -16.3                  -50.7
-#> 6 TRT          40 Female               -7.13                 -40.1
+#> 1 TRT          20 Male                -45.1                  -95.0
+#> 2 TRT          30 Male                -26.2                  -55.9
+#> 3 TRT          40 Male                 -8.90                 -43.4
+#> 4 TRT          20 Female              -32.3                  -97.1
+#> 5 TRT          30 Female              -19.6                  -54.0
+#> 6 TRT          40 Female              -10.8                  -45.4
 #> # ℹ 1 more variable: percent_slowing_upper <dbl>
 ```

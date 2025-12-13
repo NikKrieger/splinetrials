@@ -31,7 +31,7 @@ between the subgroups within each study arm) or within subgroups
 
     <a class="navbar-brand me-2" href="../index.html">splinetrials</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,6 +40,7 @@ between the subgroups within each study arm) or within subgroups
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/NikKrieger/splinetrials/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
@@ -179,7 +180,8 @@ present if <code>confint_args</code> is not <code>NULL</code>.</strong></p></li>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Create a usable data set out of mmrm::fev_data</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># interactive()</span></span></span>
+<span class="r-in"><span><span class="co"># Create a usable data set out of mmrm::fev_data</span></span></span>
 <span class="r-in"><span><span class="va">fev_mod</span> <span class="op">&lt;-</span> <span class="fu">mmrm</span><span class="fu">::</span><span class="va"><a href="https://openpharma.github.io/mmrm/latest-tag/reference/fev_data.html" class="external-link">fev_data</a></span></span></span>
 <span class="r-in"><span><span class="va">fev_mod</span><span class="op">$</span><span class="va">VISITN</span> <span class="op">&lt;-</span> <span class="va">fev_mod</span><span class="op">$</span><span class="va">VISITN</span> <span class="op">*</span> <span class="fl">10</span></span></span>
 <span class="r-in"><span><span class="va">fev_mod</span><span class="op">$</span><span class="va">time_cont</span> <span class="op">&lt;-</span> <span class="va">fev_mod</span><span class="op">$</span><span class="va">VISITN</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">fev_mod</span><span class="op">)</span><span class="op">)</span></span></span>
@@ -202,9 +204,6 @@ present if <code>confint_args</code> is not <code>NULL</code>.</strong></p></li>
 <span class="r-in"><span>    subgroup_comparator <span class="op">=</span> <span class="st">"Male"</span>,</span></span>
 <span class="r-in"><span>    covariates <span class="op">=</span> <span class="op">~</span> <span class="va">FEV1_BL</span> <span class="op">+</span> <span class="va">RACE</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> In as.ordered(obs_visit_index) there are dropped visits: 27, 37, 43.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>  Additional attributes including contrasts are lost.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> To avoid this behavior, make sure use `drop_visit_levels = FALSE`.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">marginal_means</span> <span class="op">&lt;-</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="ncs_emmeans.html">ncs_emmeans</a></span><span class="op">(</span></span></span>
@@ -222,21 +221,6 @@ present if <code>confint_args</code> is not <code>NULL</code>.</strong></p></li>
 <span class="r-in"><span>  arm <span class="op">=</span> <span class="st">"ARMCD"</span>,</span></span>
 <span class="r-in"><span>  subgroup <span class="op">=</span> <span class="st">"SEX"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  contrast      estimate    SE   df t.ratio p.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  PBO_20_Male       4.75 0.712 75.7   6.663  &lt;.0001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  TRT_20_Male       6.98 0.759 68.8   9.207  &lt;.0001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  PBO_30_Male       9.84 0.920 73.1  10.700  &lt;.0001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  TRT_30_Male      12.40 1.030 69.3  11.998  &lt;.0001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  PBO_40_Male      15.25 1.870 45.6   8.147  &lt;.0001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  TRT_40_Male      16.44 1.610 40.5  10.239  &lt;.0001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  PBO_20_Female     3.29 0.749 81.2   4.396  &lt;.0001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  TRT_20_Female     4.45 0.680 82.4   6.550  &lt;.0001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  PBO_30_Female     8.27 0.940 79.3   8.798  &lt;.0001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  TRT_30_Female     9.64 0.977 79.2   9.867  &lt;.0001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  PBO_40_Female    14.75 1.510 46.4   9.779  &lt;.0001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  TRT_40_Female    15.46 1.960 48.3   7.897  &lt;.0001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Results are averaged over the levels of: 2 nuisance factors, obs_visit_index </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Same thing as a tibble:</span></span></span>
 <span class="r-in"><span><span class="fu">change_from_baseline</span><span class="op">(</span></span></span>
@@ -247,21 +231,6 @@ present if <code>confint_args</code> is not <code>NULL</code>.</strong></p></li>
 <span class="r-in"><span>  subgroup <span class="op">=</span> <span class="st">"SEX"</span>,</span></span>
 <span class="r-in"><span>  as_tibble <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 12 × 10</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    ARMCD time_cont SEX   estimate    SE    df lower.CL upper.CL t.ratio  p.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> PBO          20 Male      4.75 0.712  75.7     3.33     6.17    6.66 3.83<span style="color: #949494;">e</span><span style="color: #BB0000;">- 9</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> TRT          20 Male      6.98 0.759  68.8     5.47     8.50    9.21 1.30<span style="color: #949494;">e</span><span style="color: #BB0000;">-13</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> PBO          30 Male      9.84 0.920  73.1     8.01    11.7    10.7  1.30<span style="color: #949494;">e</span><span style="color: #BB0000;">-16</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> TRT          30 Male     12.4  1.03   69.3    10.3     14.5    12.0  1.40<span style="color: #949494;">e</span><span style="color: #BB0000;">-18</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> PBO          40 Male     15.2  1.87   45.6    11.5     19.0     8.15 1.90<span style="color: #949494;">e</span><span style="color: #BB0000;">-10</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> TRT          40 Male     16.4  1.61   40.5    13.2     19.7    10.2  8.51<span style="color: #949494;">e</span><span style="color: #BB0000;">-13</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> PBO          20 Fema…     3.29 0.749  81.2     1.80     4.78    4.40 3.31<span style="color: #949494;">e</span><span style="color: #BB0000;">- 5</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> TRT          20 Fema…     4.45 0.680  82.4     3.10     5.80    6.55 4.62<span style="color: #949494;">e</span><span style="color: #BB0000;">- 9</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> PBO          30 Fema…     8.27 0.940  79.3     6.40    10.1     8.80 2.33<span style="color: #949494;">e</span><span style="color: #BB0000;">-13</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> TRT          30 Fema…     9.64 0.977  79.2     7.69    11.6     9.87 1.95<span style="color: #949494;">e</span><span style="color: #BB0000;">-15</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> PBO          40 Fema…    14.7  1.51   46.4    11.7     17.8     9.78 7.49<span style="color: #949494;">e</span><span style="color: #BB0000;">-13</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> TRT          40 Fema…    15.5  1.96   48.3    11.5     19.4     7.90 3.02<span style="color: #949494;">e</span><span style="color: #BB0000;">-10</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">treatment_effect</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  emmeans <span class="op">=</span> <span class="va">marginal_means</span>,</span></span>
@@ -272,15 +241,7 @@ present if <code>confint_args</code> is not <code>NULL</code>.</strong></p></li>
 <span class="r-in"><span>  ref_value <span class="op">=</span> <span class="st">"Male"</span>,</span></span>
 <span class="r-in"><span>  as_tibble <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 10</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ARMCD time_cont SEX    estimate    SE    df lower.CL upper.CL t.ratio p.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> PBO          20 Female   -<span style="color: #BB0000;">1.46</span>   1.03 155.     -<span style="color: #BB0000;">3.50</span>   0.587   -<span style="color: #BB0000;">1.41</span>   0.161 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> TRT          20 Female   -<span style="color: #BB0000;">2.53</span>   1.02 144.     -<span style="color: #BB0000;">4.55</span>  -<span style="color: #BB0000;">0.515</span>   -<span style="color: #BB0000;">2.48</span>   0.014<span style="text-decoration: underline;">2</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> PBO          30 Female   -<span style="color: #BB0000;">1.57</span>   1.31 150.     -<span style="color: #BB0000;">4.17</span>   1.03    -<span style="color: #BB0000;">1.19</span>   0.234 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> TRT          30 Female   -<span style="color: #BB0000;">2.77</span>   1.41 144.     -<span style="color: #BB0000;">5.56</span>   0.025<span style="text-decoration: underline;">9</span>  -<span style="color: #BB0000;">1.96</span>   0.052<span style="text-decoration: underline;">1</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> PBO          40 Female   -<span style="color: #BB0000;">0.499</span>  2.40  91.8    -<span style="color: #BB0000;">5.27</span>   4.27    -<span style="color: #BB0000;">0.208</span>  0.836 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> TRT          40 Female   -<span style="color: #BB0000;">0.977</span>  2.53  86.6    -<span style="color: #BB0000;">6.00</span>   4.04    -<span style="color: #BB0000;">0.387</span>  0.700 </span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

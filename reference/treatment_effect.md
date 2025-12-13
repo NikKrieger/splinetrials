@@ -159,6 +159,7 @@ If `as_tibble = TRUE`, a
 ## Examples
 
 ``` r
+if (FALSE) { # interactive()
 # Create a usable data set out of mmrm::fev_data
 fev_mod <- mmrm::fev_data
 fev_mod$VISITN <- fev_mod$VISITN * 10
@@ -182,9 +183,6 @@ fit <-
     subgroup_comparator = "Male",
     covariates = ~ FEV1_BL + RACE
   )
-#> In as.ordered(obs_visit_index) there are dropped visits: 27, 37, 43.
-#>  Additional attributes including contrasts are lost.
-#> To avoid this behavior, make sure use `drop_visit_levels = FALSE`.
 
 marginal_means <-
   ncs_emmeans(
@@ -202,21 +200,6 @@ change_from_baseline(
   arm = "ARMCD",
   subgroup = "SEX"
 )
-#>  contrast      estimate    SE   df t.ratio p.value
-#>  PBO_20_Male       4.75 0.712 75.7   6.663  <.0001
-#>  TRT_20_Male       6.98 0.759 68.8   9.207  <.0001
-#>  PBO_30_Male       9.84 0.920 73.1  10.700  <.0001
-#>  TRT_30_Male      12.40 1.030 69.3  11.998  <.0001
-#>  PBO_40_Male      15.25 1.870 45.6   8.147  <.0001
-#>  TRT_40_Male      16.44 1.610 40.5  10.239  <.0001
-#>  PBO_20_Female     3.29 0.749 81.2   4.396  <.0001
-#>  TRT_20_Female     4.45 0.680 82.4   6.550  <.0001
-#>  PBO_30_Female     8.27 0.940 79.3   8.798  <.0001
-#>  TRT_30_Female     9.64 0.977 79.2   9.867  <.0001
-#>  PBO_40_Female    14.75 1.510 46.4   9.779  <.0001
-#>  TRT_40_Female    15.46 1.960 48.3   7.897  <.0001
-#> 
-#> Results are averaged over the levels of: 2 nuisance factors, obs_visit_index 
 
 # Same thing as a tibble:
 change_from_baseline(
@@ -227,21 +210,6 @@ change_from_baseline(
   subgroup = "SEX",
   as_tibble = TRUE
 )
-#> # A tibble: 12 × 10
-#>    ARMCD time_cont SEX   estimate    SE    df lower.CL upper.CL t.ratio  p.value
-#>    <fct>     <dbl> <fct>    <dbl> <dbl> <dbl>    <dbl>    <dbl>   <dbl>    <dbl>
-#>  1 PBO          20 Male      4.75 0.712  75.7     3.33     6.17    6.66 3.83e- 9
-#>  2 TRT          20 Male      6.98 0.759  68.8     5.47     8.50    9.21 1.30e-13
-#>  3 PBO          30 Male      9.84 0.920  73.1     8.01    11.7    10.7  1.30e-16
-#>  4 TRT          30 Male     12.4  1.03   69.3    10.3     14.5    12.0  1.40e-18
-#>  5 PBO          40 Male     15.2  1.87   45.6    11.5     19.0     8.15 1.90e-10
-#>  6 TRT          40 Male     16.4  1.61   40.5    13.2     19.7    10.2  8.51e-13
-#>  7 PBO          20 Fema…     3.29 0.749  81.2     1.80     4.78    4.40 3.31e- 5
-#>  8 TRT          20 Fema…     4.45 0.680  82.4     3.10     5.80    6.55 4.62e- 9
-#>  9 PBO          30 Fema…     8.27 0.940  79.3     6.40    10.1     8.80 2.33e-13
-#> 10 TRT          30 Fema…     9.64 0.977  79.2     7.69    11.6     9.87 1.95e-15
-#> 11 PBO          40 Fema…    14.7  1.51   46.4    11.7     17.8     9.78 7.49e-13
-#> 12 TRT          40 Fema…    15.5  1.96   48.3    11.5     19.4     7.90 3.02e-10
 
 treatment_effect(
   emmeans = marginal_means,
@@ -252,13 +220,5 @@ treatment_effect(
   ref_value = "Male",
   as_tibble = TRUE
 )
-#> # A tibble: 6 × 10
-#>   ARMCD time_cont SEX    estimate    SE    df lower.CL upper.CL t.ratio p.value
-#>   <fct>     <dbl> <fct>     <dbl> <dbl> <dbl>    <dbl>    <dbl>   <dbl>   <dbl>
-#> 1 PBO          20 Female   -1.46   1.03 155.     -3.50   0.587   -1.41   0.161 
-#> 2 TRT          20 Female   -2.53   1.02 144.     -4.55  -0.515   -2.48   0.0142
-#> 3 PBO          30 Female   -1.57   1.31 150.     -4.17   1.03    -1.19   0.234 
-#> 4 TRT          30 Female   -2.77   1.41 144.     -5.56   0.0259  -1.96   0.0521
-#> 5 PBO          40 Female   -0.499  2.40  91.8    -5.27   4.27    -0.208  0.836 
-#> 6 TRT          40 Female   -0.977  2.53  86.6    -6.00   4.04    -0.387  0.700 
+}
 ```

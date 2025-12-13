@@ -19,7 +19,7 @@ Title"></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">splinetrials</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,6 +28,7 @@ Title"></head><body>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/NikKrieger/splinetrials/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
@@ -383,7 +384,7 @@ freedom, the above no-subgroup model formula template would become:</p>
 <span class="r-in"><span>  control_group <span class="op">=</span> <span class="st">"PBO"</span>,</span></span>
 <span class="r-in"><span>  covariates <span class="op">=</span> <span class="op">~</span> <span class="va">FEV1_BL</span> <span class="op">+</span> <span class="va">RACE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> In as.ordered(obs_visit_index) there are dropped visits: 23.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> In as.ordered(obs_visit_index) there are dropped visits: 27, 33.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>  Additional attributes including contrasts are lost.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> To avoid this behavior, make sure use `drop_visit_levels = FALSE`.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> mmrm fit</span>
@@ -391,21 +392,21 @@ freedom, the above no-subgroup model formula template would become:</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Formula:     FEV1 ~ spline_fn(time_cont)[, 1] + spline_fn(time_cont)[, 2] +  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     FEV1_BL + RACE + spline_fn(time_cont)[, 1]:ARMCD + spline_fn(time_cont)[,  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     2]:ARMCD</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Data:        fev_mod (used 537 observations from 197 subjects with maximum 25 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Data:        fev_mod (used 537 observations from 197 subjects with maximum 23 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> timepoints)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Covariance:  auto-regressive order one (2 variance parameters)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Inference:   REML</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Deviance:    3517.844</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Deviance:    3519.085</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                        (Intercept)          spline_fn(time_cont)[, 1] </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                         22.1532832                         20.8882405 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                         21.9675040                         21.6539457 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          spline_fn(time_cont)[, 2]                            FEV1_BL </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                         15.9238233                          0.1710474 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                         16.2898692                          0.1697069 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      RACEBlack or African American                          RACEWhite </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                          0.4839507                          5.4078973 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                          0.4284112                          5.2781845 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> spline_fn(time_cont)[, 1]:ARMCDTRT spline_fn(time_cont)[, 2]:ARMCDTRT </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                          7.4042955                          0.5122948 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                          7.5780942                          0.3654192 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Model Inference Optimization:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Converged with code 0 and message: convergence: rel_reduction_of_f &lt;= factr*epsmch</span>
@@ -427,7 +428,7 @@ freedom, the above no-subgroup model formula template would become:</p>
 <span class="r-in"><span>  subgroup_comparator <span class="op">=</span> <span class="st">"Male"</span>,</span></span>
 <span class="r-in"><span>  covariates <span class="op">=</span> <span class="op">~</span> <span class="va">FEV1_BL</span> <span class="op">+</span> <span class="va">RACE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> In as.ordered(obs_visit_index) there are dropped visits: 23.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> In as.ordered(obs_visit_index) there are dropped visits: 27, 33.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>  Additional attributes including contrasts are lost.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> To avoid this behavior, make sure use `drop_visit_levels = FALSE`.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> mmrm fit</span>
@@ -437,39 +438,39 @@ freedom, the above no-subgroup model formula template would become:</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     2]:SEX + spline_fn(time_cont)[, 1]:ARMCD + spline_fn(time_cont)[,  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     2]:ARMCD + spline_fn(time_cont)[, 1]:SEX:ARMCD + spline_fn(time_cont)[,  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     2]:SEX:ARMCD</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Data:        fev_mod (used 537 observations from 197 subjects with maximum 25 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Data:        fev_mod (used 537 observations from 197 subjects with maximum 23 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> timepoints)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Covariance:  auto-regressive order one (2 variance parameters)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Inference:   REML</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Deviance:    3494.791</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Deviance:    3495.243</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                  (Intercept) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                   19.4381254 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                  19.04064075 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    spline_fn(time_cont)[, 1] </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                   24.6970874 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                  26.03036523 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                    spline_fn(time_cont)[, 2] </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                   15.8980612 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                  16.16544536 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                    SEXFemale </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                    4.3959272 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                   4.84326016 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                      FEV1_BL </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                    0.1738792 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                   0.17108349 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                RACEBlack or African American </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                    0.6771484 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                   0.62450086 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                    RACEWhite </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                    5.5594420 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                   5.45148575 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          spline_fn(time_cont)[, 1]:SEXFemale </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                   -6.5735970 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                  -7.52228108 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          spline_fn(time_cont)[, 2]:SEXFemale </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                    0.1603330 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                   0.36217537 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           spline_fn(time_cont)[, 1]:ARMCDTRT </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                   10.0109187 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                  10.16711616 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           spline_fn(time_cont)[, 2]:ARMCDTRT </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                    0.2615782 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                   0.01344647 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> spline_fn(time_cont)[, 1]:SEXFemale:ARMCDTRT </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                   -4.6558468 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                  -4.60721973 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> spline_fn(time_cont)[, 2]:SEXFemale:ARMCDTRT </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                    0.2574873 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                   0.38589869 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Model Inference Optimization:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Converged with code 0 and message: convergence: rel_reduction_of_f &lt;= factr*epsmch</span>

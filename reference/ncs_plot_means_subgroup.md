@@ -85,6 +85,7 @@ An object returned by
 ## Examples
 
 ``` r
+if (FALSE) { # interactive()
 # Create a usable data set out of mmrm::fev_data
 fev_mod <- mmrm::fev_data
 fev_mod$VISITN <- fev_mod$VISITN * 10
@@ -110,15 +111,7 @@ ncs_data_results_subgroup <-
     covariates = ~ FEV1_BL + RACE,
     cov_structs = c("ar1", "us")
   )
-#> In as.ordered(obs_visit_index) there are dropped visits: 23, 27, 33.
-#>  Additional attributes including contrasts are lost.
-#> To avoid this behavior, make sure use `drop_visit_levels = FALSE`.
-#> In as.ordered(obs_visit_index) there are dropped visits: 23, 27, 33.
-#>  Additional attributes including contrasts are lost.
-#> To avoid this behavior, make sure use `drop_visit_levels = FALSE`.
-#> In as.ordered(obs_visit_index) there are dropped visits: 23, 27, 33.
-#>  Additional attributes including contrasts are lost.
-#> To avoid this behavior, make sure use `drop_visit_levels = FALSE`.
 
 ncs_plot_means_subgroup(ncs_data_results_subgroup$between)
+}
 ```
