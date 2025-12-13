@@ -301,6 +301,7 @@ included in the returned value as the elements \code{full} and \code{reduced} (s
 }
 
 \examples{
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 # Create a usable data set out of mmrm::fev_data
 fev_mod <- mmrm::fev_data
 fev_mod$VISITN <- fev_mod$VISITN * 10
@@ -342,4 +343,5 @@ ncs_analysis_subgroup(
   covariates = ~ FEV1_BL + RACE,
   cov_structs = c("ar1", "us")
 )
+\dontshow{\}) # examplesIf}
 }

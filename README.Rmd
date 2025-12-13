@@ -24,7 +24,13 @@ The goal of splinetrials is to analyze longitudinal clinical data applying natur
 
 ## Installation
 
-You can install the development version of splinetrials from [GitHub](https://github.com/NikKrieger/splinetrials) with:
+Install this package from CRAN with:
+
+``` r
+install.packages("splinetrials")
+```
+
+You can also install the development version of splinetrials from [GitHub](https://github.com/NikKrieger/splinetrials) with:
 
 ``` r
 # install.packages("pak")

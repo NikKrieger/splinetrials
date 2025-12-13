@@ -42,13 +42,12 @@
 #'   and `change_from_bl_tbl[[subgroup]]` (if `subgroup` is not `NULL`). It will
 #'   contain the following columns:
 #'
-#'   1. \{*column name will be the value of the *`arm`* argument*\}: the study
-#'   arm.
+#'   1. \{column name will be the value of the `arm` argument\}: the study arm.
 #'
-#'   1. \{*column name will be the value of the *`time_observed_continuous`*
-#'   argument*\}: the *observed* continuous time variable.
+#'   1. \{column name will be the value of the `time_observed_continuous`
+#'   argument\}: the *observed* continuous time variable.
 #'
-#'   1. \{*column name will be the value of the *`subgroup`* argument*\}: the
+#'   1. \{column name will be the value of the `subgroup` argument\}: the
 #'   subgroup. Only present if `subgroup` is not `NULL`.
 #'
 #'   1. `percent_slowing_est`: the percent slowing estimate

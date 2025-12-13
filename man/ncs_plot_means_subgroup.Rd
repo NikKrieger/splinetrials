@@ -55,6 +55,7 @@ modeled means are plotted in another color. Each point also has its
 confidence interval \link[ggplot2:geom_linerange]{plotted}.
 }
 \examples{
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 # Create a usable data set out of mmrm::fev_data
 fev_mod <- mmrm::fev_data
 fev_mod$VISITN <- fev_mod$VISITN * 10
@@ -82,4 +83,5 @@ ncs_data_results_subgroup <-
   )
 
 ncs_plot_means_subgroup(ncs_data_results_subgroup$between)
+\dontshow{\}) # examplesIf}
 }

@@ -45,3 +45,18 @@ A \link[ggplot2:ggplot]{ggplot} object.
 \link[ggplot2:ggplot2-package]{Plot} a continuous outcome for each combination of
 scheduled visit and study arm.
 }
+\examples{
+
+# Create a usable data set out of mmrm::fev_data
+fev_mod <- mmrm::fev_data
+fev_mod$VISITN <- fev_mod$VISITN * 10
+fev_mod$time_cont <- fev_mod$VISITN + rnorm(nrow(fev_mod))
+fev_mod$obs_visit_index <- round(fev_mod$time_cont)
+
+plot_outcome_by_visit_and_group(
+    data = fev_mod,
+    outcome_var = FEV1,
+    scheduled_timepoint_var = ordered(VISITN),
+    group_var = ARMCD
+)
+}

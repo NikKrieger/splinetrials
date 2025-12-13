@@ -8,3 +8,4 @@ project_description.md
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
+^cran-comments\.md$

@@ -109,7 +109,7 @@ change_from_baseline <- function(emmeans,
 #'
 #' @export
 #'
-#' @examples
+#' @examplesIf interactive()
 #' # Create a usable data set out of mmrm::fev_data
 #' fev_mod <- mmrm::fev_data
 #' fev_mod$VISITN <- fev_mod$VISITN * 10

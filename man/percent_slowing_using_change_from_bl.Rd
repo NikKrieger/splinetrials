@@ -38,11 +38,10 @@ A data frame with a row for each combination of the unique values of
 and \code{change_from_bl_tbl[[subgroup]]} (if \code{subgroup} is not \code{NULL}). It will
 contain the following columns:
 \enumerate{
-\item \{\emph{column name will be the value of the \emph{\code{arm}} argument}\}: the study
-arm.
-\item \{\emph{column name will be the value of the \emph{\code{time_observed_continuous}}
-argument}\}: the \emph{observed} continuous time variable.
-\item \{\emph{column name will be the value of the \emph{\code{subgroup}} argument}\}: the
+\item \{column name will be the value of the \code{arm} argument\}: the study arm.
+\item \{column name will be the value of the \code{time_observed_continuous}
+argument\}: the \emph{observed} continuous time variable.
+\item \{column name will be the value of the \code{subgroup} argument\}: the
 subgroup. Only present if \code{subgroup} is not \code{NULL}.
 \item \code{percent_slowing_est}: the percent slowing estimate
 \item \code{percent_slowing_lower}: the lower bound of the confidence interval for

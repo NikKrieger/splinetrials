@@ -28,6 +28,20 @@
 #'
 #' @returns A [ggplot][ggplot2::ggplot] object.
 #' @export
+#' @examples
+#'
+#' # Create a usable data set out of mmrm::fev_data
+#' fev_mod <- mmrm::fev_data
+#' fev_mod$VISITN <- fev_mod$VISITN * 10
+#' fev_mod$time_cont <- fev_mod$VISITN + rnorm(nrow(fev_mod))
+#' fev_mod$obs_visit_index <- round(fev_mod$time_cont)
+#'
+#' plot_outcome_by_visit_and_group(
+#'     data = fev_mod,
+#'     outcome_var = FEV1,
+#'     scheduled_timepoint_var = ordered(VISITN),
+#'     group_var = ARMCD
+#' )
 plot_outcome_by_visit_and_group <- function(data,
                                             outcome_var,
                                             scheduled_timepoint_var,
@@ -192,7 +206,7 @@ ncs_plot_means <- function(data,
 #' @returns An object returned by [ggplot2::ggplot()].
 #' @export
 #'
-#' @examples
+#' @examplesIf interactive()
 #' # Create a usable data set out of mmrm::fev_data
 #' fev_mod <- mmrm::fev_data
 #' fev_mod$VISITN <- fev_mod$VISITN * 10

@@ -109,6 +109,7 @@ treatment effect \emph{between} subgroups (examining the differences
 }
 }
 \examples{
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 # Create a usable data set out of mmrm::fev_data
 fev_mod <- mmrm::fev_data
 fev_mod$VISITN <- fev_mod$VISITN * 10
@@ -169,4 +170,5 @@ treatment_effect(
   ref_value = "Male",
   as_tibble = TRUE
 )
+\dontshow{\}) # examplesIf}
 }
