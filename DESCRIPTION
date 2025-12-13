@@ -22,7 +22,7 @@ Imports:
     cli,
     dplyr,
     emmeans,
-    mmrm,
+    mmrm (>= 0.3.16),
     rlang,
     splines
 Suggests: 

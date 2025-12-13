@@ -133,6 +133,8 @@ ncs_plot_means <- function(data,
                            model_est = "response_est",
                            model_lower = "response_lower",
                            model_upper = "response_upper") {
+  rlang::check_installed("ggplot2")
+
   check_data <- data[c(arm, time, est, lower, upper)]
   check_response <-
     dplyr::select(
@@ -244,6 +246,8 @@ ncs_plot_means_subgroup <- function(data,
                                     model_est = "response_est",
                                     model_lower = "response_lower",
                                     model_upper = "response_upper") {
+  rlang::check_installed("ggplot2")
+
   check_data <- data[c(arm, time, subgroup, est, lower, upper)]
   check_response <-
     dplyr::select(
