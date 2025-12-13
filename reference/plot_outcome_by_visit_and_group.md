@@ -91,7 +91,7 @@ fev_mod$obs_visit_index <- round(fev_mod$time_cont)
 plot_outcome_by_visit_and_group(
     data = fev_mod,
     outcome_var = FEV1,
-    scheduled_timepoint_var = ordered(VISITN),
+    scheduled_timepoint_var = as.ordered(VISITN),
     group_var = ARMCD
 )
 ```
