@@ -11,7 +11,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/NikKrieger/splinetrials/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/NikKrieger/splinetrials/blob/v0.1.0/DESCRIPTION)
 
 Krieger N (2025). *splinetrials: Facilitate Clinical Trials Analysis
 Using Natural Cubic Splines*. R package version 0.1.0,
