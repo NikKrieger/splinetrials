@@ -196,7 +196,6 @@ ncs_mmrm_fit <- function(data,
                          df = 2,
                          spline_basis = NULL,
                          time_observed_index,
-                         time_scheduled_continuous = NULL,
                          arm = NULL,
                          control_group = "control",
                          subgroup = NULL,
@@ -513,7 +512,7 @@ fit_cov_struct <- function(mmrm_args,
     tryCatch(
       eval(mmrm_call, env),
       error = function(e) {
-        if (any(grepl("convergence problem", e[["message"]]))) {
+        if (any(grepl("convergence problem|(?i)no optimizer led to", e[["message"]]))) {
           return(
             structure(
               mmrm_call,
