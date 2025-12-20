@@ -283,7 +283,6 @@ ncs_mmrm_fit(
   time_observed_continuous = time_cont,
   df = 2,
   time_observed_index = obs_visit_index,
-  time_scheduled_continuous = VISITN,
   arm = ARMCD,
   control_group = "PBO",
   covariates = ~ FEV1_BL + RACE
@@ -299,7 +298,6 @@ ncs_mmrm_fit(
   time_observed_continuous = time_cont,
   df = 2,
   time_observed_index = obs_visit_index,
-  time_scheduled_continuous = VISITN,
   arm = ARMCD,
   control_group = "PBO",
   subgroup = SEX,
