@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">splinetrials</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,14 +29,20 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/NikKrieger/splinetrials/blob/v0.1.0/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/NikKrieger/splinetrials/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="development version" id="splinetrials-development-version">splinetrials (development version)<a class="anchor" aria-label="anchor" href="#splinetrials-development-version"></a></h2>
+<ul><li>Catch novel non-convergence error. Not catching these had made it so that model fitting would just quit because the program thought it was a different kind of error the user had to figure out (e.g., syntax).</li>
+<li>Removed errant time_scheduled_continuous argument in ncs_mmrm_fit()</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.0" id="splinetrials-010">splinetrials 0.1.0<a class="anchor" aria-label="anchor" href="#splinetrials-010"></a></h2><p class="text-muted">CRAN release: 2025-12-18</p>
 <ul><li>Initial CRAN submission.</li>
 </ul></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">

@@ -26,7 +26,6 @@ ncs_mmrm_fit(
   df = 2,
   spline_basis = NULL,
   time_observed_index,
-  time_scheduled_continuous = NULL,
   arm = NULL,
   control_group = "control",
   subgroup = NULL,
@@ -146,17 +145,6 @@ ncs_mmrm_fit(
   `ordered` factor, it will be wrapped with
   [`as.ordered()`](https://rdrr.io/r/base/factor.html). Ignored if
   `cov_structs` is a `list`.
-
-- time_scheduled_continuous:
-
-  (`numeric` or `string`)  
-  the continuous time point when the visit was *scheduled* to occur. Its
-  unique values will identify the time points at which the marginal
-  means and other results will be calculated. It can be a `string`
-  identifying an existing variable name; otherwise the supplied
-  expression will be
-  [quoted](https://rlang.r-lib.org/reference/enquo.html) before being
-  evaluated (see **Tidy evaluation support**).
 
 - arm:
 
@@ -387,7 +375,6 @@ ncs_mmrm_fit(
   time_observed_continuous = time_cont,
   df = 2,
   time_observed_index = obs_visit_index,
-  time_scheduled_continuous = VISITN,
   arm = ARMCD,
   control_group = "PBO",
   covariates = ~ FEV1_BL + RACE
@@ -429,7 +416,6 @@ ncs_mmrm_fit(
   time_observed_continuous = time_cont,
   df = 2,
   time_observed_index = obs_visit_index,
-  time_scheduled_continuous = VISITN,
   arm = ARMCD,
   control_group = "PBO",
   subgroup = SEX,

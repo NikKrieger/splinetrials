@@ -19,7 +19,7 @@ Title"></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">splinetrials</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,7 +41,7 @@ Title"></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Create a Mixed Model with Repeated Measures Using Natural Cubic Splines.</h1>
-      <small class="dont-index">Source: <a href="https://github.com/NikKrieger/splinetrials/blob/v0.1.0/R/ncs_mmrm_fit.R" class="external-link"><code>R/ncs_mmrm_fit.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/NikKrieger/splinetrials/blob/main/R/ncs_mmrm_fit.R" class="external-link"><code>R/ncs_mmrm_fit.R</code></a></small>
       <div class="d-none name"><code>ncs_mmrm_fit.Rd</code></div>
     </div>
 
@@ -68,7 +68,6 @@ Title</p>
 <span>  df <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>  spline_basis <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">time_observed_index</span>,</span>
-<span>  time_scheduled_continuous <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  arm <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  control_group <span class="op">=</span> <span class="st">"control"</span>,</span>
 <span>  subgroup <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -161,15 +160,6 @@ variable; otherwise the supplied expression will be <a href="https://rlang.r-lib
 and turned into a <code>string</code> with <code><a href="https://rlang.r-lib.org/reference/expr_print.html" class="external-link">rlang::expr_deparse()</a></code> (see <strong>Tidy
 evaluation support</strong>). If it does not evaluate to an <code>ordered</code> factor, it
 will be wrapped with <code><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.ordered()</a></code>. Ignored if <code>cov_structs</code> is a <code>list</code>.</p></dd>
-
-
-<dt id="arg-time-scheduled-continuous">time_scheduled_continuous<a class="anchor" aria-label="anchor" href="#arg-time-scheduled-continuous"></a></dt>
-<dd><p>(<code>numeric</code> or <code>string</code>)<br> the continuous
-time point when the visit was <em>scheduled</em> to occur. Its unique values will
-identify the time points at which the marginal means and other results will
-be calculated. It can be a <code>string</code> identifying an existing variable name;
-otherwise the supplied expression will be <a href="https://rlang.r-lib.org/reference/enquo.html" class="external-link">quoted</a> before
-being evaluated (see <strong>Tidy evaluation support</strong>).</p></dd>
 
 
 <dt id="arg-arm">arm<a class="anchor" aria-label="anchor" href="#arg-arm"></a></dt>
@@ -379,7 +369,6 @@ freedom, the above no-subgroup model formula template would become:</p>
 <span class="r-in"><span>  time_observed_continuous <span class="op">=</span> <span class="va">time_cont</span>,</span></span>
 <span class="r-in"><span>  df <span class="op">=</span> <span class="fl">2</span>,</span></span>
 <span class="r-in"><span>  time_observed_index <span class="op">=</span> <span class="va">obs_visit_index</span>,</span></span>
-<span class="r-in"><span>  time_scheduled_continuous <span class="op">=</span> <span class="va">VISITN</span>,</span></span>
 <span class="r-in"><span>  arm <span class="op">=</span> <span class="va">ARMCD</span>,</span></span>
 <span class="r-in"><span>  control_group <span class="op">=</span> <span class="st">"PBO"</span>,</span></span>
 <span class="r-in"><span>  covariates <span class="op">=</span> <span class="op">~</span> <span class="va">FEV1_BL</span> <span class="op">+</span> <span class="va">RACE</span></span></span>
@@ -421,7 +410,6 @@ freedom, the above no-subgroup model formula template would become:</p>
 <span class="r-in"><span>  time_observed_continuous <span class="op">=</span> <span class="va">time_cont</span>,</span></span>
 <span class="r-in"><span>  df <span class="op">=</span> <span class="fl">2</span>,</span></span>
 <span class="r-in"><span>  time_observed_index <span class="op">=</span> <span class="va">obs_visit_index</span>,</span></span>
-<span class="r-in"><span>  time_scheduled_continuous <span class="op">=</span> <span class="va">VISITN</span>,</span></span>
 <span class="r-in"><span>  arm <span class="op">=</span> <span class="va">ARMCD</span>,</span></span>
 <span class="r-in"><span>  control_group <span class="op">=</span> <span class="st">"PBO"</span>,</span></span>
 <span class="r-in"><span>  subgroup <span class="op">=</span> <span class="va">SEX</span>,</span></span>
