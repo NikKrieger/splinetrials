@@ -162,13 +162,13 @@ test_that("fit_cov_struct() works", {
           data = quote(test_data_convergence_failure)
         ),
       covariance =
-        quote(mmrm::cov_struct(type = "us", "as.ordered(AVISIT)", "USUBJID")),
+        quote(mmrm::cov_struct(type = "us", "as.ordered(AVISIT)", "match(USUBJID, USUBJID)")),
       env = environment()
     ),
     "must not lead to an"
   )
 
-  # Model fit that had could not convergence
+  # Model fit that could not converge
   expect_equal(
     fit_cov_struct(
       mmrm_args =

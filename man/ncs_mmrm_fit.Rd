@@ -15,7 +15,6 @@ ncs_mmrm_fit(
   df = 2,
   spline_basis = NULL,
   time_observed_index,
-  time_scheduled_continuous = NULL,
   arm = NULL,
   control_group = "control",
   subgroup = NULL,
@@ -85,13 +84,6 @@ variable; otherwise the supplied expression will be \link[rlang:enquo]{quoted}
 and turned into a \code{string} with \code{\link[rlang:expr_print]{rlang::expr_deparse()}} (see \strong{Tidy
 evaluation support}). If it does not evaluate to an \code{ordered} factor, it
 will be wrapped with \code{\link[=as.ordered]{as.ordered()}}. Ignored if \code{cov_structs} is a \code{list}.}
-
-\item{time_scheduled_continuous}{(\code{numeric} or \code{string})\cr the continuous
-time point when the visit was \emph{scheduled} to occur. Its unique values will
-identify the time points at which the marginal means and other results will
-be calculated. It can be a \code{string} identifying an existing variable name;
-otherwise the supplied expression will be \link[rlang:enquo]{quoted} before
-being evaluated (see \strong{Tidy evaluation support}).}
 
 \item{arm}{(\code{factor} or \code{string})\cr the study arm. It must be a \code{string} or
 a \link{name} identifying an existing variable (i.e., it cannot be a \link{call}). If
@@ -291,7 +283,6 @@ ncs_mmrm_fit(
   time_observed_continuous = time_cont,
   df = 2,
   time_observed_index = obs_visit_index,
-  time_scheduled_continuous = VISITN,
   arm = ARMCD,
   control_group = "PBO",
   covariates = ~ FEV1_BL + RACE
@@ -307,7 +298,6 @@ ncs_mmrm_fit(
   time_observed_continuous = time_cont,
   df = 2,
   time_observed_index = obs_visit_index,
-  time_scheduled_continuous = VISITN,
   arm = ARMCD,
   control_group = "PBO",
   subgroup = SEX,

@@ -251,7 +251,13 @@ validate_cov_structs <- function(cov_structs,
     # We turn these expressions into strings because that's what
     # mmrm::cov_struct() expects.
     time_observed_index <- rlang::expr_deparse(time_observed_index, width = Inf)
-    subject <- validate_user_var({{subject}}, call = call)
+    subject <-
+      validate_user_var(
+        {{subject}},
+        make_factor_call = "as.factor",
+        data = data,
+        call = call
+      )
     subject <- rlang::expr_deparse(subject, width = Inf)
     cov_struct_group <-
       validate_user_var(
@@ -264,7 +270,7 @@ validate_cov_structs <- function(cov_structs,
     # If the user did not supply a cov_struct_group, use character() because
     # that's what mmrm::cov_struct() expects.
     cov_struct_group <- if (is.null(cov_struct_group)) quote(character()) else
-        rlang::expr_deparse(cov_struct_group, width = Inf)
+      rlang::expr_deparse(cov_struct_group, width = Inf)
 
     # Create a list of calls to mmrm::cov_struct() whose only difference is the
     # type argument.
@@ -438,7 +444,8 @@ validate_scheduled_time <- function(data,
     duplicated(distinct_data[["time_num"]], fromLast = TRUE)
 
   if (any(duplicated_labels)) {
-    probs <- sort(unique(distinct_data[duplicated_nums, "time_num", drop = TRUE]))
+    probs <-
+      sort(unique(distinct_data[duplicated_nums, "time_num", drop = TRUE]))
     cli::cli_abort(c(
       "There must be a one-to-one relationship between the {.arg time_scheduled_label} variable, {.code {time_scheduled_label}}, and the {.arg time_scheduled_continuous} variable, {.code {time_scheduled_continuous}}.",
       "x" = "The {.code {time_scheduled_continuous}} {cli::qty(length(probs))} value{?s} {.code {unique(distinct_data[['time_num']])}} {?is/are each} associated with multiple different {.code {time_scheduled_label}} values."
