@@ -9,3 +9,4 @@ project_description.md
 ^docs$
 ^pkgdown$
 ^cran-comments\.md$
+^README_cache$
