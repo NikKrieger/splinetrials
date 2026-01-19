@@ -19,24 +19,12 @@ You can also install the development version of splinetrials from
 pak::pak("NikKrieger/splinetrials")
 ```
 
-# Methods
-
-The NCS model is a longitudinal mixed model of repeated measures (MMRM)
-with random effects marginalized out, additive baseline covariates, and
-time parameterized using natural cubic splines. The parameterization has
-additive effects and pairwise interactions for study arm and time point
-(i.e., spline basis functions). The model is constrained so that all
-study arms have equal means at baseline.
-
-# Data
-
-We begin with a clinical data set with one row per patient per scheduled
-visit (including baseline). The following simulated data set represents
-the general structure (e.g. column names) but not necessarily realistic
-responses.
+## Setup
 
 ``` r
-set.seed(1)
+library(survival)
+library(mmrm)
+library(splinetrials)
 library(dplyr)
 #> 
 #> Attaching package: 'dplyr'
@@ -46,151 +34,113 @@ library(dplyr)
 #> The following objects are masked from 'package:base':
 #> 
 #>     intersect, setdiff, setequal, union
-data <-
-  mutate(
-    cross_join(
-      data.frame(
-        patient = do.call(paste0, expand.grid(LETTERS, letters))[1:50],
-        arm =
-          sample(c("control", "active1", "active2"), 50, replace = TRUE),
-        categorical1 = sample(paste0("level", 1:3), 50, replace = TRUE),
-        categorical2 = sample(c("level1", "level2"), 50, replace = TRUE),
-        continuous1 = rnorm(50),
-        continuous2 = rnorm(50)
-      ),
-      data.frame(
-        time_observed_index = seq_len(8),
-        time_scheduled_index = seq_len(8),
-        time_scheduled_label =
-          c("Baseline", paste("visit", c(3, 4, 5, 7, 8, 9, 12))),
-        time_scheduled_continuous = seq(from = 0, length.out = 8) / 4
-      )
-    ),
-    time_observed_continuous =
-      time_scheduled_continuous + runif(n(), min = -0.1, max = 0.1),
-    response =
-      rnorm(
-        n(),
-        10 - (1 * (arm == "active1") + 2 * (arm == "active2") +
-                3 * (arm == "control")) * sqrt((time_observed_index / 4) -
-                                                 min(time_observed_index / 4))
-      )
-  )
-
-head(data)
-#>   patient     arm categorical1 categorical2 continuous1 continuous2
-#> 1      Aa control       level3       level2   0.6466744  -0.9106807
-#> 2      Aa control       level3       level2   0.6466744  -0.9106807
-#> 3      Aa control       level3       level2   0.6466744  -0.9106807
-#> 4      Aa control       level3       level2   0.6466744  -0.9106807
-#> 5      Aa control       level3       level2   0.6466744  -0.9106807
-#> 6      Aa control       level3       level2   0.6466744  -0.9106807
-#>   time_observed_index time_scheduled_index time_scheduled_label
-#> 1                   1                    1             Baseline
-#> 2                   2                    2              visit 3
-#> 3                   3                    3              visit 4
-#> 4                   4                    4              visit 5
-#> 5                   5                    5              visit 7
-#> 6                   6                    6              visit 8
-#>   time_scheduled_continuous time_observed_continuous  response
-#> 1                      0.00               0.07296151 10.685015
-#> 2                      0.25               0.18543891 11.766415
-#> 3                      0.50               0.49866375  8.439280
-#> 4                      0.75               0.73594267  7.332906
-#> 5                      1.00               1.01285277  6.027557
-#> 6                      1.25               1.28123246  6.099311
+library(ggplot2)
 ```
 
-The following is a summary of the required columns in the data set. Here
-are the columns not related to time points or visits:
+# Overview
 
-1.  `response`: User-supplied numeric vector of responses to the
-    clinical endpoint. Could be `AVAL`.
-2.  `patient`: User-supplied character vector, ID of the patient in the
-    study. Usually `USUBJID`.
-3.  `arm`: User-supplied character vector, study arm of the given
-    patient.
-4.  `categorical1`, `categorical2`: User-supplied example categorical
-    baseline covariates.
-5.  `continuous1`, `continuous2`: User-supplied example continuous
-    baseline covariates.
+The NCS model is a longitudinal mixed model of repeated measures (MMRM)
+with random effects marginalized out, additive baseline covariates, and
+time parameterized using natural cubic splines.
 
-Here are the columns related to time points or visits:
+# Demo
 
-1.  `time_observed_continuous`: User-supplied numeric vector of
-    continuous times corresponding to each observed patient visit.
-    Varies from patient to patient. Units could be in years, months, or
-    days, or some other unit. Must be on the same time scale as
-    `time_scheduled_continuous`. (If the former is in weeks, then the
-    latter must also be in weeks.)
-2.  `time_observed_index`: User-supplied integer index vector of *bins*
-    of observed time points. These numeric labels should indicate
-    groupings of time points based on rounding
-    `time_observed_continuous` to a small set of strategic fixed time
-    points.
-3.  `time_observed_factor`: Derived ordered factor version of
-    `time_observed_index` to structure the correlation matrix. Derived
-    as
-    `ordered(as.character(time_observed_index), levels = as.character(sort(unique(time_observed_index))))`.
-4.  `time_scheduled_index`: User-supplied integer index vector of
-    scheduled visit numbers. Usually `AVISITN`.
-5.  `time_scheduled_label`: User-supplied character vector of
-    human-readable scheduled visit labels. Usually `AVISIT`.
-6.  `time_scheduled_continuous`: User-supplied numeric vector of
-    continuous times of when each visit was scheduled. It must be on the
-    same time scale as `time_scheduled_continuous`, the values must have
-    a one-to-one correspondence with the scheduled visits in
-    `time_scheduled_label`, and the baseline must have a value of 0. If
-    the time scale is weeks, then the study team can create this
-    variable in advance using `time_scheduled_label` (e.g. `AVISIT`).
-    For example, if `AVISIT` is `"Baseline"`, then
-    `time_scheduled_continuous` must be 0. If `time_scheduled_label` is
-    `"Visit Number 5 (Week 24)"`, then `time_scheduled_continuous`
-    should be 24.
+## Data
 
-## Main analysis
+The package functions accept data sets with **one row per patient per
+scheduled visit** (including baseline).
 
-The NCS analysis is a call to a single function:
+We’ll adapt the `pbcseq` data set in the survival package:
+
+``` r
+pbcseq_mod <- 
+  survival::pbcseq |> 
+  mutate(
+    years = day / 365.25,
+    visit_index =
+      bin_timepoints( # splinetrials helper function yielding an ordered factor
+        observed = years,
+        scheduled = c(0, 0.5, 1:round(max(years))),
+        labels = c("Baseline", paste(c(0.5, 1:round(max(years))), "yr"))
+      ),
+    sch_visit_years = c(0, 0.5, 1:round(max(years)))[as.numeric(visit_index)],
+    sch_visit_label = as.character(visit_index),
+    trt = factor(trt, labels = c("control", "treatment"))
+  ) |> 
+  arrange(id, visit_index, abs(years - sch_visit_years)) |>
+  distinct(id, visit_index, .keep_all = TRUE) |> 
+  select(id, visit_index:sch_visit_label, trt, everything()) |> 
+  as_tibble()
+
+pbcseq_mod
+#> # A tibble: 1,906 × 23
+#>       id visit_index sch_visit_years sch_visit_label trt     futime status   age
+#>    <int> <ord>                 <dbl> <chr>           <fct>    <int>  <int> <dbl>
+#>  1     1 Baseline                0   Baseline        treatm…    400      2  58.8
+#>  2     1 0.5 yr                  0.5 0.5 yr          treatm…    400      2  58.8
+#>  3     2 Baseline                0   Baseline        treatm…   5169      0  56.4
+#>  4     2 0.5 yr                  0.5 0.5 yr          treatm…   5169      0  56.4
+#>  5     2 1 yr                    1   1 yr            treatm…   5169      0  56.4
+#>  6     2 2 yr                    2   2 yr            treatm…   5169      0  56.4
+#>  7     2 5 yr                    5   5 yr            treatm…   5169      0  56.4
+#>  8     2 6 yr                    6   6 yr            treatm…   5169      0  56.4
+#>  9     2 7 yr                    7   7 yr            treatm…   5169      0  56.4
+#> 10     2 8 yr                    8   8 yr            treatm…   5169      0  56.4
+#> # ℹ 1,896 more rows
+#> # ℹ 15 more variables: sex <fct>, day <int>, ascites <int>, hepato <int>,
+#> #   spiders <int>, edema <dbl>, bili <dbl>, chol <int>, albumin <dbl>,
+#> #   alk.phos <int>, ast <dbl>, platelet <int>, protime <dbl>, stage <int>,
+#> #   years <dbl>
+```
+
+Notice how the helper function
+[`splinetrials::bin_timepoints()`](https://nikkrieger.github.io/splinetrials/reference/bin_timepoints.md)
+creates the visit index, categorizing follow-up visits based on when
+they were scheduled (see
+[`?survival::pbcseq`](https://rdrr.io/pkg/survival/man/pbcseq.html)).
+
+## Basic NCS analysis
+
+Once we have these variables created, we are ready for a full NCS
+analysis using
 [`ncs_analysis()`](https://nikkrieger.github.io/splinetrials/reference/ncs_analysis_subgroup.md).
 This produces a table of summary statistics, including LS means and
-confidence intervals. All arguments to
-[`ncs_analysis()`](https://nikkrieger.github.io/splinetrials/reference/ncs_analysis_subgroup.md)
-should be exposed as user inputs.
+confidence intervals:
 
 ``` r
-library(splinetrials)
-results_table <- ncs_analysis(
-  data = data,
-  response = "response",
-  subject = "patient",
-  arm = "arm",
-  control_group = "control",
-  time_observed_continuous = "time_observed_continuous",
-  time_observed_index = "time_observed_index",
-  time_scheduled_continuous = "time_scheduled_continuous",
-  time_scheduled_label = "time_scheduled_label",
-  covariates = ~ continuous1 + categorical2,
-  cov_structs = c("us", "toeph", "ar1h", "csh", "cs"),
-  df = 3
-)
-```
-
-``` r
-results_table
-#> # A tibble: 24 × 32
+pbc_spline_analysis <-
+  ncs_analysis(
+    data = pbcseq_mod,
+    response = alk.phos,
+    subject = id,
+    arm = trt,
+    control_group = "control",
+    time_observed_continuous = years,
+    time_observed_index = visit_index,
+    time_scheduled_continuous = sch_visit_years,
+    time_scheduled_label = sch_visit_label,
+    covariates = ~ age + sex + bili + albumin + ast + protime
+  )
+#> → The covariance structure `"us"` did not successfully converge.
+#> Warning in mmrm::mmrm(method = "Satterthwaite", formula = alk.phos ~
+#> spline_fn(years)[, : Divergence with optimizer L-BFGS-B due to problems:
+#> L-BFGS-B needs finite values of 'fn'
+#> mmrm() registered as emmeans extension
+pbc_spline_analysis
+#> # A tibble: 32 × 32
 #>    arm     time         n   est    sd    se lower upper response_est response_se
 #>    <fct>   <chr>    <int> <dbl> <dbl> <dbl> <dbl> <dbl>        <dbl>       <dbl>
-#>  1 active1 Baseline    19 10.0  1.04  0.240  9.57 10.5          9.95       0.127
-#>  2 active1 visit 3     19  9.13 0.909 0.208  8.72  9.54         9.40       0.105
-#>  3 active1 visit 4     19  9.02 1.10  0.253  8.53  9.52         8.94       0.144
-#>  4 active1 visit 5     19  9.08 0.969 0.222  8.65  9.52         8.69       0.138
-#>  5 active1 visit 7     19  8.57 1.17  0.268  8.05  9.10         8.63       0.134
-#>  6 active1 visit 8     19  8.72 0.861 0.198  8.34  9.11         8.70       0.150
-#>  7 active1 visit 9     19  9.16 1.21  0.278  8.61  9.70         8.84       0.126
-#>  8 active1 visit 12    19  8.83 0.851 0.195  8.45  9.21         9.03       0.183
-#>  9 active2 Baseline    13 10.3  0.883 0.245  9.82 10.8          9.95       0.127
-#> 10 active2 visit 3     13  8.49 1.10  0.304  7.90  9.09         9.19       0.120
-#> # ℹ 14 more rows
+#>  1 control Baseline   154 1943. 2102. 169.  1611. 2275.        1424.        77.0
+#>  2 control 0.5 yr     131 1574. 1134.  99.1 1379. 1768.        1377.        71.9
+#>  3 control 1 yr       130 1543.  934.  81.9 1382. 1703.        1330.        68.6
+#>  4 control 2 yr       111 1481. 1076. 102.  1281. 1681.        1243.        67.2
+#>  5 control 3 yr        83 1252.  662.  72.7 1110. 1395.        1169.        69.1
+#>  6 control 4 yr        75 1182.  716.  82.7 1020. 1344.        1107.        71.0
+#>  7 control 5 yr        61 1250.  902. 115.  1023. 1476.        1058.        71.1
+#>  8 control 6 yr        56 1073.  589.  78.7  919. 1228.        1019.        69.4
+#>  9 control 7 yr        47 1022.  601.  87.6  851. 1194.         989.        66.6
+#> 10 control 8 yr        37 1021.  554.  91.1  842. 1199.         968.        64.4
+#> # ℹ 22 more rows
 #> # ℹ 22 more variables: response_df <dbl>, response_lower <dbl>,
 #> #   response_upper <dbl>, change_est <dbl>, change_se <dbl>, change_df <dbl>,
 #> #   change_lower <dbl>, change_upper <dbl>, change_test_statistic <dbl>,
@@ -199,8 +149,258 @@ results_table
 #> #   diff_p_value <dbl>, percent_slowing_est <dbl>, …
 ```
 
-The table has one row per study arm per timepoint of interest and the
-following columns.
+Note that the above warnings are expected, as splinetrials and
+[`mmrm::mmrm()`](https://openpharma.github.io/mmrm/latest-tag/reference/mmrm.html)
+iterate through different covariance structures and optimizers until a
+converging model is achieved.
+
+We can plot the resulting model against the data by feeding the
+resulting data set to
+[`ncs_plot_means()`](https://nikkrieger.github.io/splinetrials/reference/ncs_plot_means.md):
+
+``` r
+p1 <- ncs_plot_means(pbc_spline_analysis)
+p1
+```
+
+![](reference/figures/README-plot_means_no_subgroup-1.png)
+
+### Methods
+
+The parameterization has additive effects and pairwise interactions for
+study arm and time point (i.e., spline basis functions). The model is
+constrained so that all study arms have equal means at baseline: notice
+that the same line passes through both the control group’s and the
+treatment group’s modeled mean baseline estimates:
+
+``` r
+p1 +
+  geom_hline(
+    aes(yintercept = response_est),
+    data = filter(pbc_spline_analysis, time == "Baseline"),
+    linetype = 3
+  )
+```
+
+![](reference/figures/README-unnamed-chunk-5-1.png)
+
+## NCS subgroup analysis
+
+Run a NCS analysis with subgroups using
+[`ncs_analysis_subgroup()`](https://nikkrieger.github.io/splinetrials/reference/ncs_analysis_subgroup.md).
+The data set should include a categorical variable to indicate subgroup
+membership. In this case, the `sex` variable serves as the `subgroup`.
+
+``` r
+subgroup_analysis_results <-
+  ncs_analysis_subgroup(
+    data = pbcseq_mod,
+    response = alk.phos,
+    subject = id,
+    arm = trt,
+    control_group = "control",
+    subgroup = sex,
+    subgroup_comparator = "f",
+    time_observed_continuous = years,
+    time_observed_index = visit_index,
+    time_scheduled_continuous = sch_visit_years,
+    time_scheduled_label = sch_visit_label,
+    covariates = ~ age + bili + albumin + ast + protime,
+    cov_structs = "ar1h",
+    return_models = TRUE
+  )
+#> mmrm() registered as car::Anova extension
+#> Warning in mmrm::mmrm(formula = alk.phos ~ spline_fn(years)[, 1] +
+#> spline_fn(years)[, : Divergence with optimizer L-BFGS-B due to problems:
+#> L-BFGS-B needs finite values of 'fn'
+#> Warning in mmrm::mmrm(formula = alk.phos ~ spline_fn(years)[, 1] +
+#> spline_fn(years)[, : Divergence with optimizer L-BFGS-B due to problems:
+#> L-BFGS-B needs finite values of 'fn'
+```
+
+This function returns a list of multiple analyses, which are better
+looked at one at a time:
+
+### Between subgroups and within subgroups
+
+The `between` and `within` tables contain the same data except for the
+treatment effect columns. Note also that they are sorted differently.
+
+#### `between`
+
+The `between` table calculates treatment effects between the subgroups
+within each study arm:
+
+``` r
+subgroup_analysis_results$between
+#> # A tibble: 62 × 30
+#>    arm       time     subgroup     n   est    sd    se lower upper response_est
+#>    <fct>     <chr>    <fct>    <int> <dbl> <dbl> <dbl> <dbl> <dbl>        <dbl>
+#>  1 control   Baseline f          139 1966. 2066. 175.  1622. 2309.        1429.
+#>  2 control   Baseline m           15 1734. 2478. 640.   480. 2989.        1640.
+#>  3 treatment Baseline f          137 1950. 2151. 184.  1590. 2310.        1429.
+#>  4 treatment Baseline m           21 2486. 2385. 521.  1466. 3506.        1640.
+#>  5 control   0.5 yr   f          119 1619. 1162. 106.  1410. 1827.        1377.
+#>  6 control   0.5 yr   m           12 1134.  714. 206.   730. 1538.        1572.
+#>  7 treatment 0.5 yr   f          108 1348.  818.  78.7 1194. 1502.        1385.
+#>  8 treatment 0.5 yr   m           17 1646.  821. 199.  1256. 2037.        1592.
+#>  9 control   1 yr     f          118 1575.  944.  86.9 1405. 1745.        1325.
+#> 10 control   1 yr     m           12 1229.  796. 230.   778. 1679.        1506.
+#> # ℹ 52 more rows
+#> # ℹ 20 more variables: response_se <dbl>, response_df <dbl>,
+#> #   response_lower <dbl>, response_upper <dbl>, change_est <dbl>,
+#> #   change_se <dbl>, change_df <dbl>, change_lower <dbl>, change_upper <dbl>,
+#> #   change_test_statistic <dbl>, change_p_value <dbl>, diff_subgroup_est <dbl>,
+#> #   diff_subgroup_se <dbl>, diff_subgroup_df <dbl>, diff_subgroup_lower <dbl>,
+#> #   diff_subgroup_upper <dbl>, diff_subgroup_test_statistic <dbl>, …
+```
+
+#### `within`
+
+The `within` table calculates treatment effects between each study arm
+within each subgroup:
+
+``` r
+subgroup_analysis_results$within
+#> # A tibble: 62 × 33
+#>    arm     time     subgroup     n   est    sd    se lower upper response_est
+#>    <fct>   <chr>    <fct>    <int> <dbl> <dbl> <dbl> <dbl> <dbl>        <dbl>
+#>  1 control Baseline f          139 1966. 2066. 175.  1622. 2309.        1429.
+#>  2 control 0.5 yr   f          119 1619. 1162. 106.  1410. 1827.        1377.
+#>  3 control 1 yr     f          118 1575.  944.  86.9 1405. 1745.        1325.
+#>  4 control 2 yr     f          100 1527. 1109. 111.  1310. 1744.        1230.
+#>  5 control 3 yr     f           74 1271.  685.  79.6 1115. 1427.        1151.
+#>  6 control 4 yr     f           68 1193.  743.  90.2 1016. 1369.        1088.
+#>  7 control 5 yr     f           54 1297.  949. 129.  1044. 1550.        1040.
+#>  8 control 6 yr     f           49 1093.  619.  88.5  920. 1266.        1005.
+#>  9 control 7 yr     f           40 1049.  641. 101.   850. 1247.         981.
+#> 10 control 8 yr     f           31 1088.  575. 103.   885. 1290.         969.
+#> # ℹ 52 more rows
+#> # ℹ 23 more variables: response_se <dbl>, response_df <dbl>,
+#> #   response_lower <dbl>, response_upper <dbl>, change_est <dbl>,
+#> #   change_se <dbl>, change_df <dbl>, change_lower <dbl>, change_upper <dbl>,
+#> #   change_test_statistic <dbl>, change_p_value <dbl>, diff_arm_est <dbl>,
+#> #   diff_arm_se <dbl>, diff_arm_df <dbl>, diff_arm_lower <dbl>,
+#> #   diff_arm_upper <dbl>, diff_arm_test_statistic <dbl>, …
+```
+
+#### Plotting the means
+
+We can supply either of the above result entries (i.e., `between` or
+`within`) to
+[`ncs_plot_means_subgroup()`](https://nikkrieger.github.io/splinetrials/reference/ncs_plot_means_subgroup.md).
+This function creates a grid of plots that again depict the actual and
+modeled mean responses at each timepoint. Each column of plots contains
+a study arm and each row of plots contains a subgroup.
+
+We again include horizontal lines to demonstrate that the study arms all
+have the same modeled mean baseline estimate:
+
+``` r
+ncs_plot_means_subgroup(subgroup_analysis_results$between) +
+  geom_hline(
+    aes(yintercept = response_est),
+    data = filter(subgroup_analysis_results$between, time == "Baseline"),
+    linetype = 3,
+    lwd = 0.5
+  )
+```
+
+![](reference/figures/README-unnamed-chunk-9-1.png)
+
+### Type-III ANOVA
+
+`type3` contains a Type-III ANOVA on the main analysis model’s terms:
+
+``` r
+subgroup_analysis_results$type3
+#> # A tibble: 14 × 6
+#>    effect             chisquare_test_stati…¹    df p_value correlation optimizer
+#>    <chr>                               <dbl> <int>   <dbl> <chr>       <chr>    
+#>  1 spline_fn(years)[…              30.2          1 3.84e-8 heterogene… mmrm+tmb 
+#>  2 spline_fn(years)[…              13.5          1 2.43e-4 heterogene… mmrm+tmb 
+#>  3 sex                              1.26         1 2.62e-1 heterogene… mmrm+tmb 
+#>  4 age                             23.5          1 1.24e-6 heterogene… mmrm+tmb 
+#>  5 bili                             6.08         1 1.37e-2 heterogene… mmrm+tmb 
+#>  6 albumin                          7.16         1 7.45e-3 heterogene… mmrm+tmb 
+#>  7 ast                              2.95         1 8.57e-2 heterogene… mmrm+tmb 
+#>  8 protime                          1.76         1 1.85e-1 heterogene… mmrm+tmb 
+#>  9 spline_fn(years)[…               1.20         1 2.74e-1 heterogene… mmrm+tmb 
+#> 10 spline_fn(years)[…               2.70         1 1.01e-1 heterogene… mmrm+tmb 
+#> 11 spline_fn(years)[…               0.000212     1 9.88e-1 heterogene… mmrm+tmb 
+#> 12 spline_fn(years)[…               1.29         1 2.56e-1 heterogene… mmrm+tmb 
+#> 13 spline_fn(years)[…               0.0588       1 8.08e-1 heterogene… mmrm+tmb 
+#> 14 spline_fn(years)[…               0.0164       1 8.98e-1 heterogene… mmrm+tmb 
+#> # ℹ abbreviated name: ¹​chisquare_test_statistic
+```
+
+### Subgroup interaction test
+
+The optional `interaction` result contains an ANOVA comparing the
+original model fit to a reduced version:
+
+``` r
+subgroup_analysis_results$interaction
+#>           model      aic      bic    loglik -2*log(l) test_statistic df
+#> 1 reduced model 29201.78 29314.07 -14570.89  29141.78             NA NA
+#> 2    full model 29205.64 29325.42 -14570.82  29141.64      0.1351363  2
+#>    p_value                          correlation optimizer
+#> 1       NA heterogeneous autoregressive order 1  mmrm+tmb
+#> 2 0.934664 heterogeneous autoregressive order 1  mmrm+tmb
+```
+
+### `return_models = TRUE`
+
+Lastly, the user can optionally obtain the original analysis model
+object as well as those used for the subgroup interaction test, which
+are returned as the `analysis_model`, `full`, and `reduced` entries.
+These are `mmrm` objects created using
+[`mmrm::mmrm()`](https://openpharma.github.io/mmrm/latest-tag/reference/mmrm.html).
+Here is `analysis_model`, for example:
+
+``` r
+subgroup_analysis_results$analysis_model
+#> mmrm fit
+#> 
+#> Formula:     alk.phos ~ spline_fn(years)[, 1] + spline_fn(years)[, 2] + sex +  
+#>     age + bili + albumin + ast + protime + spline_fn(years)[,  
+#>     1]:sex + spline_fn(years)[, 2]:sex + spline_fn(years)[, 1]:trt +  
+#>     spline_fn(years)[, 2]:trt + spline_fn(years)[, 1]:sex:trt +  
+#>     spline_fn(years)[, 2]:sex:trt
+#> Data:        dplyr::mutate(pbcseq_mod, sex = factor(sex, c("f", "m"))) (used 
+#> 1860 observations from 312 subjects with maximum 16 timepoints)
+#> Covariance:  heterogeneous auto-regressive order one (17 variance parameters)
+#> Inference:   REML
+#> Deviance:    29002.11
+#> 
+#> Coefficients: 
+#>                             (Intercept)                   spline_fn(years)[, 1] 
+#>                             2721.322358                             -815.000265 
+#>                   spline_fn(years)[, 2]                                    sexm 
+#>                             -217.027228                              210.533944 
+#>                                     age                                    bili 
+#>                              -18.112882                               22.507712 
+#>                                 albumin                                     ast 
+#>                              -95.578177                                1.296681 
+#>                                 protime              spline_fn(years)[, 1]:sexm 
+#>                              -28.763036                             -458.009692 
+#>              spline_fn(years)[, 2]:sexm      spline_fn(years)[, 1]:trttreatment 
+#>                             -478.555152                              -53.251556 
+#>      spline_fn(years)[, 2]:trttreatment spline_fn(years)[, 1]:sexm:trttreatment 
+#>                             -299.228629                              113.096456 
+#> spline_fn(years)[, 2]:sexm:trttreatment 
+#>                              -78.148527 
+#> 
+#> Model Inference Optimization:
+#> Converged with code 0 and message: convergence: rel_reduction_of_f <= factr*epsmch
+```
+
+# Appendix: details of the analysis results tables
+
+## Basic NCS analysis
+
+The basic NCS analysis results table `pbc_spline_analysis` has one row
+per study arm per timepoint of interest and the following columns:
 
 - `arm`: study arm, i.e. treatment group
 - `time`: discrete visit time labels from the `time_scheduled_label`
@@ -240,214 +440,12 @@ following columns.
 - `correlation`: correlation structure of the whole model.
 - `optimizer`: optimization algorithm for the whole model.
 
-We can plot the model against the data.
-
-``` r
-ncs_plot_means(results_table)
-```
-
-![](reference/figures/README-plot_means_no_subgroup-1.png)
-
 ## Subgroup analysis
 
-The subgroup analysis is similar, but it begins with a data set with a
-categorical variable column to indicate subgroup membership.
-
-``` r
-set.seed(1)
-data_with_subgroup <-
-  mutate(
-    cross_join(
-      data.frame(
-        patient = do.call(paste0, expand.grid(LETTERS, letters))[1:120],
-        arm = rep(c("control", "active1", "active2"), each = 40),
-        subgroup = rep(c("subgroup1", "subgroup2", "subgroup3"), times = 40),
-        categorical1 = sample(paste0("level", 1:3), 120, replace = TRUE),
-        categorical2 = sample(c("level1", "level2"), 120, replace = TRUE),
-        continuous1 = rnorm(120),
-        continuous2 = rnorm(120)
-      ),
-      data.frame(
-        time_observed_index = seq_len(8),
-        time_scheduled_index = seq_len(8),
-        time_scheduled_label =
-          c("Baseline", paste("visit", c(3, 4, 5, 7, 8, 9, 12))),
-        time_scheduled_continuous = as.numeric(seq(from = 0, length.out = 8) / 4)
-      )
-    ),
-    time_observed_continuous =
-      time_scheduled_continuous + runif(n(), min = -0.1, max = 0.1),
-    response = rnorm(
-      n(),
-      mean =
-        10 - (1 * (arm == "active1") + 2 * (arm == "active2") +
-                3 * (arm == "control")) * sqrt((time_observed_index / 4) -
-                                                 min(time_observed_index / 4))
-    )
-  )
-```
-
-``` r
-head(data_with_subgroup)
-#>   patient     arm  subgroup categorical1 categorical2 continuous1 continuous2
-#> 1      Aa control subgroup1       level1       level1  -0.9568919   0.6060734
-#> 2      Aa control subgroup1       level1       level1  -0.9568919   0.6060734
-#> 3      Aa control subgroup1       level1       level1  -0.9568919   0.6060734
-#> 4      Aa control subgroup1       level1       level1  -0.9568919   0.6060734
-#> 5      Aa control subgroup1       level1       level1  -0.9568919   0.6060734
-#> 6      Aa control subgroup1       level1       level1  -0.9568919   0.6060734
-#>   time_observed_index time_scheduled_index time_scheduled_label
-#> 1                   1                    1             Baseline
-#> 2                   2                    2              visit 3
-#> 3                   3                    3              visit 4
-#> 4                   4                    4              visit 5
-#> 5                   5                    5              visit 7
-#> 6                   6                    6              visit 8
-#>   time_scheduled_continuous time_observed_continuous response
-#> 1                      0.00              -0.07428706 9.336270
-#> 2                      0.25               0.23840196 9.916441
-#> 3                      0.50               0.43845954 6.507177
-#> 4                      0.75               0.73698012 7.510785
-#> 5                      1.00               0.94502668 6.533178
-#> 6                      1.25               1.34221926 9.607641
-```
-
-For completeness, here is a full description of the columns in the data.
-Columns not related to time points or visits:
-
-1.  `subgroup`: User-supplied character vector indicating the subgroup
-    of each patient.
-2.  `response`: User-supplied numeric vector of responses to the
-    clinical endpoint. Could be `AVAL`.
-3.  `patient`: User-supplied character vector, ID of the patient in the
-    study. Usually `USUBJID`.
-4.  `arm`: User-supplied character vector, study arm of the given
-    patient.
-5.  `categorical1`, `categorical2`: User-supplied example categorical
-    baseline covariates.
-6.  `continuous1`, `continuous2`: User-supplied example continuous
-    baseline covariates.
-
-Columns related to time points and visits:
-
-1.  `time_observed_continuous`: User-supplied numeric vector of
-    continuous times corresponding to each observed patient visit.
-    Varies from patient to patient. Units could be in years, months, or
-    days, or some other unit. Must be on the same time scale as
-    `time_scheduled_continuous`. (If the former is in weeks, then the
-    latter must also be in weeks.)
-2.  `time_observed_index`: User-supplied integer index vector of *bins*
-    of observed time points. These numeric labels should indicate
-    groupings of time points based on rounding
-    `time_observed_continuous` to a small set of strategic fixed time
-    points.
-3.  `time_observed_factor`: Derived ordered factor version of
-    `time_observed_index` to structure the correlation matrix. Derived
-    as
-    `ordered(as.character(time_observed_index), levels = as.character(sort(unique(time_observed_index))))`.
-4.  `time_scheduled_index`: User-supplied integer index vector of
-    scheduled visit numbers. Usually `AVISITN`.
-5.  `time_scheduled_label`: User-supplied character vector of
-    human-readable scheduled visit labels. Usually `AVISIT`.
-6.  `time_scheduled_continuous`: User-supplied numeric vector of
-    continuous times of when each visit was scheduled. It must be on the
-    same time scale as `time_scheduled_continuous`, the values must have
-    a one-to-one correspondence with the scheduled visits in
-    `time_scheduled_label`, and the baseline must have a value of 0. If
-    the time scale is weeks, then the study team can create this
-    variable in advance using `time_scheduled_label` (e.g. `AVISIT`).
-    For example, if `AVISIT` is `"Baseline"`, then
-    `time_scheduled_continuous` must be 0. If `time_scheduled_label` is
-    `"Visit Number 5 (Week 24)"`, then `time_scheduled_continuous`
-    should be 24.
-
-The NCS subgroup analysis is a call to a single function:
-[`ncs_analysis_subgroup()`](https://nikkrieger.github.io/splinetrials/reference/ncs_analysis_subgroup.md).
-This produces a table of summary statistics, including LS means and
-confidence intervals.
-
-``` r
-subgroup_results <-
-  ncs_analysis_subgroup(
-    data = data_with_subgroup,
-    response = "response",
-    subject = "patient",
-    arm = "arm",
-    control_group = "control",
-    subgroup = "subgroup",
-    subgroup_comparator = "subgroup1",
-    time_observed_continuous = "time_observed_continuous",
-    time_observed_index = "time_observed_index",
-    time_scheduled_continuous = "time_scheduled_continuous",
-    time_scheduled_label = "time_scheduled_label",
-    covariates = ~ continuous1 + categorical2,
-    cov_structs = c("us", "toeph", "ar1h", "csh", "cs"),
-    df = 3
-  )
-```
-
-We can plot the model against the data.
-
-``` r
-ncs_plot_means_subgroup(subgroup_results$within)
-```
-
-![](reference/figures/README-plot_means_subgroup-1.png)
-
-Between-subgroup table:
-
-``` r
-subgroup_results$between
-#> # A tibble: 72 × 30
-#>    arm     time     subgroup      n   est    sd    se lower upper response_est
-#>    <fct>   <chr>    <fct>     <int> <dbl> <dbl> <dbl> <dbl> <dbl>        <dbl>
-#>  1 active1 Baseline subgroup1    13 10.2  1.05  0.292  9.60 10.7          9.83
-#>  2 active1 Baseline subgroup2    14  9.72 1.19  0.317  9.10 10.3          9.85
-#>  3 active1 Baseline subgroup3    13  9.81 1.14  0.317  9.18 10.4          9.80
-#>  4 active2 Baseline subgroup1    13 10.3  1.60  0.444  9.39 11.1          9.83
-#>  5 active2 Baseline subgroup2    13 10.1  1.06  0.295  9.53 10.7          9.85
-#>  6 active2 Baseline subgroup3    14  9.92 0.741 0.198  9.53 10.3          9.80
-#>  7 control Baseline subgroup1    14 10.2  1.20  0.320  9.52 10.8          9.83
-#>  8 control Baseline subgroup2    13 10.3  1.45  0.402  9.50 11.1          9.85
-#>  9 control Baseline subgroup3    13  9.88 0.896 0.249  9.39 10.4          9.80
-#> 10 active1 visit 3  subgroup1    13  9.26 1.11  0.307  8.66  9.86         9.59
-#> # ℹ 62 more rows
-#> # ℹ 20 more variables: response_se <dbl>, response_df <dbl>,
-#> #   response_lower <dbl>, response_upper <dbl>, change_est <dbl>,
-#> #   change_se <dbl>, change_df <dbl>, change_lower <dbl>, change_upper <dbl>,
-#> #   change_test_statistic <dbl>, change_p_value <dbl>, diff_subgroup_est <dbl>,
-#> #   diff_subgroup_se <dbl>, diff_subgroup_df <dbl>, diff_subgroup_lower <dbl>,
-#> #   diff_subgroup_upper <dbl>, diff_subgroup_test_statistic <dbl>, …
-```
-
-Within-subgroup table:
-
-``` r
-subgroup_results$within
-#> # A tibble: 72 × 33
-#>    arm     time     subgroup      n   est    sd    se lower upper response_est
-#>    <fct>   <chr>    <fct>     <int> <dbl> <dbl> <dbl> <dbl> <dbl>        <dbl>
-#>  1 active1 Baseline subgroup1    13 10.2  1.05  0.292  9.60 10.7          9.83
-#>  2 active1 visit 3  subgroup1    13  9.26 1.11  0.307  8.66  9.86         9.59
-#>  3 active1 visit 4  subgroup1    13  9.25 0.856 0.237  8.78  9.71         9.34
-#>  4 active1 visit 5  subgroup1    13  9.42 1.01  0.280  8.87  9.97         9.07
-#>  5 active1 visit 7  subgroup1    13  8.80 0.762 0.211  8.39  9.22         8.81
-#>  6 active1 visit 8  subgroup1    13  8.82 1.03  0.286  8.26  9.38         8.64
-#>  7 active1 visit 9  subgroup1    13  8.56 0.893 0.248  8.08  9.05         8.63
-#>  8 active1 visit 12 subgroup1    13  8.72 1.15  0.319  8.09  9.34         8.72
-#>  9 active2 Baseline subgroup1    13 10.3  1.60  0.444  9.39 11.1          9.83
-#> 10 active2 visit 3  subgroup1    13  8.95 1.10  0.306  8.35  9.55         9.21
-#> # ℹ 62 more rows
-#> # ℹ 23 more variables: response_se <dbl>, response_df <dbl>,
-#> #   response_lower <dbl>, response_upper <dbl>, change_est <dbl>,
-#> #   change_se <dbl>, change_df <dbl>, change_lower <dbl>, change_upper <dbl>,
-#> #   change_test_statistic <dbl>, change_p_value <dbl>, diff_arm_est <dbl>,
-#> #   diff_arm_se <dbl>, diff_arm_df <dbl>, diff_arm_lower <dbl>,
-#> #   diff_arm_upper <dbl>, diff_arm_test_statistic <dbl>, …
-```
+### `between` and `within` tables
 
 The between-subgroup and within-subgroup tables have one row per study
-arm per timepoint per subgroup and the following columns.
+arm per timepoint per subgroup and the following columns:
 
 - `arm`: study arm, i.e. treatment group
 - `time`: discrete visit time labels from the `time_scheduled_label`
@@ -492,47 +490,25 @@ arm per timepoint per subgroup and the following columns.
 - `correlation`: correlation structure of the analysis subgroup model.
 - `optimizer`: optimizer of the analysis subgroup model.
 
-Type-III ANOVA fixed effects:
+### `type3` column descriptions
 
-``` r
-subgroup_results$type3
-#> # A tibble: 15 × 6
-#>    effect            chisquare_test_stati…¹    df  p_value correlation optimizer
-#>    <chr>                              <dbl> <int>    <dbl> <chr>       <chr>    
-#>  1 spline_fn(time_o…               134.         1 4.36e-31 heterogene… mmrm+tmb 
-#>  2 spline_fn(time_o…               342.         1 2.23e-76 heterogene… mmrm+tmb 
-#>  3 spline_fn(time_o…               189.         1 6.16e-43 heterogene… mmrm+tmb 
-#>  4 subgroup                          0.0641     2 9.68e- 1 heterogene… mmrm+tmb 
-#>  5 continuous1                       1.72       1 1.90e- 1 heterogene… mmrm+tmb 
-#>  6 categorical2                      0.958      1 3.28e- 1 heterogene… mmrm+tmb 
-#>  7 spline_fn(time_o…                 0.770      2 6.80e- 1 heterogene… mmrm+tmb 
-#>  8 spline_fn(time_o…                 0.189      2 9.10e- 1 heterogene… mmrm+tmb 
-#>  9 spline_fn(time_o…                 0.514      2 7.73e- 1 heterogene… mmrm+tmb 
-#> 10 spline_fn(time_o…                24.7        2 4.26e- 6 heterogene… mmrm+tmb 
-#> 11 spline_fn(time_o…               376.         2 2.02e-82 heterogene… mmrm+tmb 
-#> 12 spline_fn(time_o…                42.0        2 7.62e-10 heterogene… mmrm+tmb 
-#> 13 spline_fn(time_o…                13.9        4 7.74e- 3 heterogene… mmrm+tmb 
-#> 14 spline_fn(time_o…                 2.62       4 6.23e- 1 heterogene… mmrm+tmb 
-#> 15 spline_fn(time_o…                 2.54       4 6.37e- 1 heterogene… mmrm+tmb 
-#> # ℹ abbreviated name: ¹​chisquare_test_statistic
-```
+The Type-III ANOVA table has one row per effect in the main analysis
+model and the following columns:
 
-There is also a table for the subgroup interaction test:
+- `effect`: the model effect in the main analysis model
+- `chisquare_test_statistic`: Chi-squared test statistic for the model
+  term’s significance
+- `df`: degrees of freedom
+- `p_value`: p-value for the test of the model term’s significance
+- `correlation`: correlation structure of the analysis subgroup model.
+- `optimizer`: optimizer of the analysis subgroup model.
 
-``` r
-subgroup_results$interaction
-#>           model      aic      bic    loglik -2*log(l) test_statistic df
-#> 1 reduced model 2884.131 3040.231 -1386.066  2772.131             NA NA
-#> 2    full model 2891.246 3080.796 -1377.623  2755.246       16.88529 12
-#>     p_value                correlation optimizer
-#> 1        NA heterogeneous unstructured  mmrm+tmb
-#> 2 0.1539634 heterogeneous unstructured  mmrm+tmb
-```
+### `interaction` column descriptions
 
-The test itself is a likelihood ratio test between a full model with
-subgroup-treatment interaction and a reduced model without
-subgroup-treatment interaction. The table has a row for the full model,
-a row for the reduced model, and the following columns.
+The subgroup interaction test table will have two rows: the first will
+represent the reduced model and the second will depict the full model.
+Likelihood ratio test results will only be in the latter row. The table
+will contain the following columns:
 
 - `model`: the model, either full or reduced.
 - `df`: degrees of freedom
