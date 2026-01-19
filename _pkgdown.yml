@@ -2,3 +2,36 @@ url: https://nikkrieger.github.io/splinetrials/
 template:
   bootstrap: 5
 
+reference:
+- title: Full NCS Analyses
+  desc:  Execute a full NCS analysis on a data set.
+- contents:
+  - ncs_analysis
+  - splinetrials_analysis-class
+  - ncs_analysis_subgroup
+  - splinetrials_subgroup_analysis-class
+- title: Individual NCS Analysis Components
+  desc:  Execute one of the components of the full NCS analyses
+- contents:
+  - ncs_mmrm_fit
+  - ncs_emmeans
+  - change_from_baseline
+  - treatment_effect
+  - percent_slowing_using_change_from_bl
+- title: Plotting
+  desc:  Plot the actual and modeled NCS data.
+- contents:
+  - ncs_plot_means
+  - ncs_plot_means_subgroup
+  - plot_outcome_by_visit_and_group
+- title: Data prep
+  desc:  Prepare a data set for natural cubic splines analysis.
+- contents:
+  - bin_timepoints
+  - make_visit_labels
+  - midpoints
+- title: Time Splines
+  desc:  Helpers for applying natural cubic splines to a numeric vector.
+- contents:
+  - time_spline
+  - time_spline_basis
