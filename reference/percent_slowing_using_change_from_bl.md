@@ -114,6 +114,9 @@ fit <-
     subgroup_comparator = "Male",
     covariates = ~ FEV1_BL + RACE
   )
+#> In as.ordered(obs_visit_index) there are dropped visits: 23.
+#>  Additional attributes including contrasts are lost.
+#> To avoid this behavior, make sure use `drop_visit_levels = FALSE`.
 
 marginal_means <-
   ncs_emmeans(
@@ -144,11 +147,11 @@ percent_slowing_using_change_from_bl(
 #> # A tibble: 6 × 6
 #>   ARMCD time_cont SEX    percent_slowing_est percent_slowing_lower
 #>   <fct>     <dbl> <fct>                <dbl>                 <dbl>
-#> 1 TRT          20 Male                -45.1                  -95.0
-#> 2 TRT          30 Male                -26.2                  -55.9
-#> 3 TRT          40 Male                 -8.90                 -43.4
-#> 4 TRT          20 Female              -32.3                  -97.1
-#> 5 TRT          30 Female              -19.6                  -54.0
-#> 6 TRT          40 Female              -10.8                  -45.4
+#> 1 TRT          20 Male                -47.4                 -101. 
+#> 2 TRT          30 Male                -26.6                  -58.4
+#> 3 TRT          40 Male                 -7.90                 -41.6
+#> 4 TRT          20 Female              -35.7                 -116. 
+#> 5 TRT          30 Female              -19.1                  -56.8
+#> 6 TRT          40 Female               -9.10                 -42.6
 #> # ℹ 1 more variable: percent_slowing_upper <dbl>
 ```

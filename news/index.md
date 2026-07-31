@@ -2,6 +2,8 @@
 
 ## splinetrials 0.1.1
 
+CRAN release: 2026-01-19
+
 - Catch novel non-convergence error. Not catching these had made it so
   that model fitting would just quit because the program thought it was
   a different kind of error the user had to figure out (e.g., syntax).

@@ -82,6 +82,7 @@ A [ggplot](https://ggplot2.tidyverse.org/reference/ggplot.html) object.
 ## Examples
 
 ``` r
+
 # Create a usable data set out of mmrm::fev_data
 fev_mod <- mmrm::fev_data
 fev_mod$VISITN <- fev_mod$VISITN * 10

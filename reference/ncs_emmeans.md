@@ -142,6 +142,9 @@ fit <-
     subgroup_comparator = "Male",
     covariates = ~ FEV1_BL + RACE
   )
+#> In as.ordered(obs_visit_index) there are dropped visits: 7.
+#>  Additional attributes including contrasts are lost.
+#> To avoid this behavior, make sure use `drop_visit_levels = FALSE`.
 
 ncs_emmeans(
   fit = fit,
@@ -151,22 +154,22 @@ ncs_emmeans(
   subgroup = "SEX"
 )
 #>  ARMCD time_cont SEX    emmean    SE   df lower.CL upper.CL
-#>  PBO          10 Male     32.9 0.826 60.4     31.2     34.6
-#>  TRT          10 Male     36.1 0.796 56.4     34.5     37.7
-#>  PBO          20 Male     37.4 0.711 43.9     35.9     38.8
-#>  TRT          20 Male     42.9 0.748 36.4     41.4     44.4
-#>  PBO          30 Male     42.3 0.507 48.8     41.3     43.3
-#>  TRT          30 Male     48.2 0.850 40.2     46.5     49.9
-#>  PBO          40 Male     47.7 1.560 35.4     44.5     50.8
-#>  TRT          40 Male     52.3 1.580 31.3     49.1     55.5
-#>  PBO          10 Female   35.3 0.754 66.8     33.8     36.8
-#>  TRT          10 Female   36.9 0.852 69.6     35.2     38.6
-#>  PBO          20 Female   38.4 0.641 49.4     37.1     39.7
-#>  TRT          20 Female   41.2 0.638 47.0     39.9     42.5
-#>  PBO          30 Female   43.4 0.617 55.4     42.1     44.6
-#>  TRT          30 Female   46.5 0.652 52.5     45.2     47.8
-#>  PBO          40 Female   49.9 1.330 36.7     47.2     52.6
-#>  TRT          40 Female   52.6 1.700 36.6     49.1     56.0
+#>  PBO          10 Male     32.7 0.831 59.2     31.0     34.3
+#>  TRT          10 Male     35.6 0.828 58.4     34.0     37.3
+#>  PBO          20 Male     38.0 0.669 42.6     36.6     39.3
+#>  TRT          20 Male     43.1 0.759 35.8     41.6     44.6
+#>  PBO          30 Male     42.9 0.509 47.5     41.8     43.9
+#>  TRT          30 Male     48.5 0.832 39.5     46.9     50.2
+#>  PBO          40 Male     47.3 1.670 33.9     43.9     50.7
+#>  TRT          40 Male     52.2 1.620 30.9     48.8     55.5
+#>  PBO          10 Female   35.4 0.757 68.4     33.9     36.9
+#>  TRT          10 Female   36.8 0.856 69.6     35.1     38.5
+#>  PBO          20 Female   38.6 0.602 48.1     37.4     39.8
+#>  TRT          20 Female   41.2 0.696 45.9     39.8     42.6
+#>  PBO          30 Female   43.3 0.619 54.3     42.1     44.6
+#>  TRT          30 Female   46.4 0.654 51.3     45.1     47.7
+#>  PBO          40 Female   49.6 1.280 36.8     47.0     52.2
+#>  TRT          40 Female   52.5 1.720 36.4     49.0     56.0
 #> 
 #> Results are averaged over the levels of: 2 nuisance factors, obs_visit_index 
 #> Confidence level used: 0.95 

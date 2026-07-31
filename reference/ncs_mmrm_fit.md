@@ -379,7 +379,7 @@ ncs_mmrm_fit(
   control_group = "PBO",
   covariates = ~ FEV1_BL + RACE
 )
-#> In as.ordered(obs_visit_index) there are dropped visits: 27, 33.
+#> In as.ordered(obs_visit_index) there are dropped visits: 7, 13.
 #>  Additional attributes including contrasts are lost.
 #> To avoid this behavior, make sure use `drop_visit_levels = FALSE`.
 #> mmrm fit
@@ -391,17 +391,17 @@ ncs_mmrm_fit(
 #> timepoints)
 #> Covariance:  auto-regressive order one (2 variance parameters)
 #> Inference:   REML
-#> Deviance:    3519.085
+#> Deviance:    3518.308
 #> 
 #> Coefficients: 
 #>                        (Intercept)          spline_fn(time_cont)[, 1] 
-#>                         21.9675040                         21.6539457 
+#>                         22.0080284                         21.4620771 
 #>          spline_fn(time_cont)[, 2]                            FEV1_BL 
-#>                         16.2898692                          0.1697069 
+#>                         16.0249294                          0.1680125 
 #>      RACEBlack or African American                          RACEWhite 
-#>                          0.4284112                          5.2781845 
+#>                          0.5268688                          5.2046373 
 #> spline_fn(time_cont)[, 1]:ARMCDTRT spline_fn(time_cont)[, 2]:ARMCDTRT 
-#>                          7.5780942                          0.3654192 
+#>                          7.7814262                          0.5806395 
 #> 
 #> Model Inference Optimization:
 #> Converged with code 0 and message: convergence: rel_reduction_of_f <= factr*epsmch
@@ -422,7 +422,7 @@ ncs_mmrm_fit(
   subgroup_comparator = "Male",
   covariates = ~ FEV1_BL + RACE
 )
-#> In as.ordered(obs_visit_index) there are dropped visits: 27, 33.
+#> In as.ordered(obs_visit_index) there are dropped visits: 7, 13.
 #>  Additional attributes including contrasts are lost.
 #> To avoid this behavior, make sure use `drop_visit_levels = FALSE`.
 #> mmrm fit
@@ -436,35 +436,35 @@ ncs_mmrm_fit(
 #> timepoints)
 #> Covariance:  auto-regressive order one (2 variance parameters)
 #> Inference:   REML
-#> Deviance:    3495.243
+#> Deviance:    3494.971
 #> 
 #> Coefficients: 
 #>                                  (Intercept) 
-#>                                  19.04064075 
+#>                                  19.67149735 
 #>                    spline_fn(time_cont)[, 1] 
-#>                                  26.03036523 
+#>                                  24.30017558 
 #>                    spline_fn(time_cont)[, 2] 
-#>                                  16.16544536 
+#>                                  16.04867150 
 #>                                    SEXFemale 
-#>                                   4.84326016 
+#>                                   3.83193773 
 #>                                      FEV1_BL 
-#>                                   0.17108349 
+#>                                   0.17005589 
 #>                RACEBlack or African American 
-#>                                   0.62450086 
+#>                                   0.74830944 
 #>                                    RACEWhite 
-#>                                   5.45148575 
+#>                                   5.40862025 
 #>          spline_fn(time_cont)[, 1]:SEXFemale 
-#>                                  -7.52228108 
+#>                                  -4.97477177 
 #>          spline_fn(time_cont)[, 2]:SEXFemale 
-#>                                   0.36217537 
+#>                                   0.08771549 
 #>           spline_fn(time_cont)[, 1]:ARMCDTRT 
-#>                                  10.16711616 
+#>                                  10.55622384 
 #>           spline_fn(time_cont)[, 2]:ARMCDTRT 
-#>                                   0.01344647 
+#>                                   0.11133479 
 #> spline_fn(time_cont)[, 1]:SEXFemale:ARMCDTRT 
-#>                                  -4.60721973 
+#>                                  -5.01830612 
 #> spline_fn(time_cont)[, 2]:SEXFemale:ARMCDTRT 
-#>                                   0.38589869 
+#>                                   0.64149121 
 #> 
 #> Model Inference Optimization:
 #> Converged with code 0 and message: convergence: rel_reduction_of_f <= factr*epsmch

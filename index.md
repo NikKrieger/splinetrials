@@ -8,6 +8,7 @@ applying natural cubic splines to a continuous time variable.
 Install this package from CRAN with:
 
 ``` r
+
 install.packages("splinetrials")
 ```
 
@@ -15,6 +16,7 @@ You can also install the development version of splinetrials from
 [GitHub](https://github.com/NikKrieger/splinetrials) with:
 
 ``` r
+
 # install.packages("pak")
 pak::pak("NikKrieger/splinetrials")
 ```
@@ -22,6 +24,7 @@ pak::pak("NikKrieger/splinetrials")
 ## Setup
 
 ``` r
+
 library(survival)
 library(mmrm)
 library(splinetrials)
@@ -53,6 +56,7 @@ scheduled visit** (including baseline).
 We’ll adapt the `pbcseq` data set in the survival package:
 
 ``` r
+
 pbcseq_mod <- 
   survival::pbcseq |> 
   mutate(
@@ -108,6 +112,7 @@ This produces a table of summary statistics, including LS means and
 confidence intervals:
 
 ``` r
+
 pbc_spline_analysis <-
   ncs_analysis(
     data = pbcseq_mod,
@@ -159,6 +164,7 @@ resulting data set to
 [`ncs_plot_means()`](https://nikkrieger.github.io/splinetrials/reference/ncs_plot_means.md):
 
 ``` r
+
 p1 <- ncs_plot_means(pbc_spline_analysis)
 p1
 ```
@@ -174,6 +180,7 @@ that the same line passes through both the control group’s and the
 treatment group’s modeled mean baseline estimates:
 
 ``` r
+
 p1 +
   geom_hline(
     aes(yintercept = response_est),
@@ -192,6 +199,7 @@ The data set should include a categorical variable to indicate subgroup
 membership. In this case, the `sex` variable serves as the `subgroup`.
 
 ``` r
+
 subgroup_analysis_results <-
   ncs_analysis_subgroup(
     data = pbcseq_mod,
@@ -232,6 +240,7 @@ The `between` table calculates treatment effects between the subgroups
 within each study arm:
 
 ``` r
+
 subgroup_analysis_results$between
 #> # A tibble: 62 × 30
 #>    arm       time     subgroup     n   est    sd    se lower upper response_est
@@ -261,6 +270,7 @@ The `within` table calculates treatment effects between each study arm
 within each subgroup:
 
 ``` r
+
 subgroup_analysis_results$within
 #> # A tibble: 62 × 33
 #>    arm     time     subgroup     n   est    sd    se lower upper response_est
@@ -297,6 +307,7 @@ We again include horizontal lines to demonstrate that the study arms all
 have the same modeled mean baseline estimate:
 
 ``` r
+
 ncs_plot_means_subgroup(subgroup_analysis_results$between) +
   geom_hline(
     aes(yintercept = response_est),
@@ -313,6 +324,7 @@ ncs_plot_means_subgroup(subgroup_analysis_results$between) +
 `type3` contains a Type-III ANOVA on the main analysis model’s terms:
 
 ``` r
+
 subgroup_analysis_results$type3
 #> # A tibble: 14 × 6
 #>    effect             chisquare_test_stati…¹    df p_value correlation optimizer
@@ -340,6 +352,7 @@ The optional `interaction` result contains an ANOVA comparing the
 original model fit to a reduced version:
 
 ``` r
+
 subgroup_analysis_results$interaction
 #>           model      aic      bic    loglik -2*log(l) test_statistic df
 #> 1 reduced model 29201.78 29314.07 -14570.89  29141.78             NA NA
@@ -359,6 +372,7 @@ These are `mmrm` objects created using
 Here is `analysis_model`, for example:
 
 ``` r
+
 subgroup_analysis_results$analysis_model
 #> mmrm fit
 #> 
