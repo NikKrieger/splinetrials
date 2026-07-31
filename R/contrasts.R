@@ -316,14 +316,18 @@ ncs_contrasts <- function(emmeans,
   contrasts <- do.call(emmeans::contrast, contrast_args)
 
   if (as_tibble) {
+    contrasts_tbl <- as.data.frame(contrasts)
+    contrasts_keep_cols <-
+      intersect(
+        colnames(contrasts_tbl),
+        c("estimate", "SE", "df", "t.ratio", "z.ratio", "p.value")
+      )
     out <-
       dplyr::tibble(
         # Start with the unique combinations of arm, time, and subgroup. Remove
         # rows corresponding to the time baseline and reference groups.
         grid[-indices_to_remove, c(arm, time_observed_continuous, subgroup)],
-        as.data.frame(contrasts)[
-          c("estimate", "SE", "df", "t.ratio", "p.value")
-        ],
+        contrasts_tbl[contrasts_keep_cols],
         .name_repair = "unique_quiet"
       )
 
