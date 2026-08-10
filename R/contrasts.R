@@ -97,13 +97,14 @@ change_from_baseline <- function(emmeans,
 #'   1. `df`: degrees of freedom for calculating the confidence interval for and
 #'   estimating the significance of `estimate`.
 #'
-#'   1. `lower.CL`: lower bound of confidence interval for `estimate`. **Only
-#'   present if `confint_args` is not `NULL`.**
+#'   1. `lower.CL`/`asymp.LCL`: lower bound of confidence interval for
+#'  `estimate`. **Only present if `confint_args` is not `NULL`.**
 #'
-#'   1. `upper.CL`: upper bound of confidence interval for `estimate`. **Only
-#'   present if `confint_args` is not `NULL`.**
+#'   1. `upper.CL`/`asymp.UCL`: upper bound of confidence interval for
+#'  `estimate`. **Only present if `confint_args` is not `NULL`.**
 #'
-#'   1. `t.ratio`: test statistic measuring the significance of `estimate`.
+#'   1. `t.ratio`/`z.ratio`: test statistic measuring the significance of
+#'  `estimate`.
 #'
 #'   1. `p.value`: p-value for the significance of `estimate`.
 #'
@@ -317,17 +318,13 @@ ncs_contrasts <- function(emmeans,
 
   if (as_tibble) {
     contrasts_tbl <- as.data.frame(contrasts)
-    contrasts_keep_cols <-
-      intersect(
-        colnames(contrasts_tbl),
-        c("estimate", "SE", "df", "t.ratio", "z.ratio", "p.value")
-      )
+    ratio_colname <- intersect(colnames(contrasts_tbl), c("t.ratio", "z.ratio"))
     out <-
       dplyr::tibble(
         # Start with the unique combinations of arm, time, and subgroup. Remove
         # rows corresponding to the time baseline and reference groups.
         grid[-indices_to_remove, c(arm, time_observed_continuous, subgroup)],
-        contrasts_tbl[contrasts_keep_cols],
+        contrasts_tbl[c("estimate", "SE", "df", ratio_colname, "p.value")],
         .name_repair = "unique_quiet"
       )
 
@@ -340,13 +337,19 @@ ncs_contrasts <- function(emmeans,
           .homonyms = "first"
         )
       ci <- do.call(stats::confint, confint_args)
+      ci_keep_cols <-
+        switch(
+          ratio_colname,
+          "t.ratio" = c("lower.CL", "upper.CL"),
+          "z.ratio" = c("asymp.LCL", "asymp.UCL")
+        )
       out <-
         dplyr::tibble(
           out[
             c(arm, time_observed_continuous, subgroup, "estimate", "SE", "df")
           ],
-          ci[c("lower.CL", "upper.CL")],
-          out[c("t.ratio", "p.value")],
+          ci[ci_keep_cols],
+          out[c(ratio_colname, "p.value")],
           .name_repair = "unique_quiet"
         )
     }

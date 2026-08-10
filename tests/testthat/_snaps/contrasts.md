@@ -210,3 +210,21 @@
       62 active1          1.75 subgroup3   -1.20  0.479  35.8  -2.51  1.66e- 2
       63 active2          1.75 subgroup3   -3.05  0.458  36.3  -6.67  8.60e- 8
 
+# z.ratio, asymp.LCL, and asymp.UCL cols successfully incorporated
+
+    Code
+      change_from_baseline(emmeans = marginal_means, time_observed_continuous = "CONT_TIME",
+        time_scheduled_baseline = 0, arm = "TRT", as_tibble = TRUE)
+    Output
+      # A tibble: 8 x 9
+        TRT     CONT_TIME estimate    SE    df asymp.LCL asymp.UCL z.ratio p.value
+        <fct>       <dbl>    <dbl> <dbl> <dbl>     <dbl>     <dbl>   <dbl>   <dbl>
+      1 Placebo         2       NA    NA    NA        NA        NA      NA      NA
+      2 Drug            2       NA    NA    NA        NA        NA      NA      NA
+      3 Placebo         4       NA    NA    NA        NA        NA      NA      NA
+      4 Drug            4       NA    NA    NA        NA        NA      NA      NA
+      5 Placebo         6       NA    NA    NA        NA        NA      NA      NA
+      6 Drug            6       NA    NA    NA        NA        NA      NA      NA
+      7 Placebo         8       NA    NA    NA        NA        NA      NA      NA
+      8 Drug            8       NA    NA    NA        NA        NA      NA      NA
+

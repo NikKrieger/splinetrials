@@ -249,3 +249,60 @@ test_that("ncs_contrasts() works", {
     percent_slowing_expected
   )
 })
+
+test_that("z.ratio, asymp.LCL, and asymp.UCL cols successfully incorporated", {
+
+  set.seed(42)
+  n_subj <- 30
+  visits  <- c(0, 2, 4, 6, 8)
+  labels  <- c("Baseline", "Week 2", "Week 4", "Week 6", "Week 8")
+  n_time  <- length(visits)
+
+  test_data <-
+    data.frame(
+      USUBJID = rep(paste0("SUBJ-", sprintf("%03d", 1:n_subj)), each = n_time),
+      TRT =
+        factor(
+          rep(c("Drug", "Placebo"), each = (n_subj / 2) * n_time),
+          levels = c("Placebo", "Drug")
+        ),
+      AVAL = rnorm(n_subj * n_time, mean = 50, sd = 10),
+      CONT_TIME = rep(visits, n_subj),
+      OBS_TIME = rep(visits, n_subj),
+      SCHED_TIME = rep(visits, n_subj),
+      AVISIT = rep(labels, n_subj),
+      AGE = rep(round(rnorm(n_subj, 55, 8)), each = n_time)
+    )
+
+  fit <-
+    ncs_mmrm_fit(
+      data = test_data,
+      response                  = "AVAL",
+      subject                   = "USUBJID",
+      cov_structs               = c("us", "cs"),
+      time_observed_continuous  = "CONT_TIME",
+      df = 2,
+      time_observed_index       = "OBS_TIME",
+      arm                       = "TRT",
+      control_group             = "Placebo",
+      covariates                = ~ AGE,
+    )
+
+  marginal_means <-
+    ncs_emmeans(
+      fit = fit,
+      observed_time = "CONT_TIME",
+      scheduled_time = "SCHED_TIME",
+      arm = "TRT"
+    )
+
+  expect_snapshot(
+  change_from_baseline(
+    emmeans = marginal_means,
+    time_observed_continuous = "CONT_TIME",
+    time_scheduled_baseline = 0,
+    arm = "TRT",
+    as_tibble = TRUE
+  )
+  )
+})

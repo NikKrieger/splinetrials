@@ -85,11 +85,12 @@ subgroup. \strong{Only present if \code{subgroup} is not \code{NULL}.}
 \item \code{SE}: standard error of \code{estimate}.
 \item \code{df}: degrees of freedom for calculating the confidence interval for and
 estimating the significance of \code{estimate}.
-\item \code{lower.CL}: lower bound of confidence interval for \code{estimate}. \strong{Only
-present if \code{confint_args} is not \code{NULL}.}
-\item \code{upper.CL}: upper bound of confidence interval for \code{estimate}. \strong{Only
-present if \code{confint_args} is not \code{NULL}.}
-\item \code{t.ratio}: test statistic measuring the significance of \code{estimate}.
+\item \code{lower.CL}/\code{asymp.LCL}: lower bound of confidence interval for
+\code{estimate}. \strong{Only present if \code{confint_args} is not \code{NULL}.}
+\item \code{upper.CL}/\code{asymp.UCL}: upper bound of confidence interval for
+\code{estimate}. \strong{Only present if \code{confint_args} is not \code{NULL}.}
+\item \code{t.ratio}/\code{z.ratio}: test statistic measuring the significance of
+\code{estimate}.
 \item \code{p.value}: p-value for the significance of \code{estimate}.
 }
 }
