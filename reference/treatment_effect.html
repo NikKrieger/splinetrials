@@ -31,7 +31,7 @@ between the subgroups within each study arm) or within subgroups
 
     <a class="navbar-brand me-2" href="../index.html">splinetrials</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1.9001</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -170,11 +170,12 @@ subgroup. <strong>Only present if <code>subgroup</code> is not <code>NULL</code>
 <li><p><code>SE</code>: standard error of <code>estimate</code>.</p></li>
 <li><p><code>df</code>: degrees of freedom for calculating the confidence interval for and
 estimating the significance of <code>estimate</code>.</p></li>
-<li><p><code>lower.CL</code>: lower bound of confidence interval for <code>estimate</code>. <strong>Only
-present if <code>confint_args</code> is not <code>NULL</code>.</strong></p></li>
-<li><p><code>upper.CL</code>: upper bound of confidence interval for <code>estimate</code>. <strong>Only
-present if <code>confint_args</code> is not <code>NULL</code>.</strong></p></li>
-<li><p><code>t.ratio</code>: test statistic measuring the significance of <code>estimate</code>.</p></li>
+<li><p><code>lower.CL</code>/<code>asymp.LCL</code>: lower bound of confidence interval for
+<code>estimate</code>. <strong>Only present if <code>confint_args</code> is not <code>NULL</code>.</strong></p></li>
+<li><p><code>upper.CL</code>/<code>asymp.UCL</code>: upper bound of confidence interval for
+<code>estimate</code>. <strong>Only present if <code>confint_args</code> is not <code>NULL</code>.</strong></p></li>
+<li><p><code>t.ratio</code>/<code>z.ratio</code>: test statistic measuring the significance of
+<code>estimate</code>.</p></li>
 <li><p><code>p.value</code>: p-value for the significance of <code>estimate</code>.</p></li>
 </ol></div>
 

@@ -146,13 +146,14 @@ If `as_tibble = TRUE`, a
 6.  `df`: degrees of freedom for calculating the confidence interval for
     and estimating the significance of `estimate`.
 
-7.  `lower.CL`: lower bound of confidence interval for `estimate`.
-    **Only present if `confint_args` is not `NULL`.**
+7.  `lower.CL`/`asymp.LCL`: lower bound of confidence interval for
+    `estimate`. **Only present if `confint_args` is not `NULL`.**
 
-8.  `upper.CL`: upper bound of confidence interval for `estimate`.
-    **Only present if `confint_args` is not `NULL`.**
+8.  `upper.CL`/`asymp.UCL`: upper bound of confidence interval for
+    `estimate`. **Only present if `confint_args` is not `NULL`.**
 
-9.  `t.ratio`: test statistic measuring the significance of `estimate`.
+9.  `t.ratio`/`z.ratio`: test statistic measuring the significance of
+    `estimate`.
 
 10. `p.value`: p-value for the significance of `estimate`.
 
